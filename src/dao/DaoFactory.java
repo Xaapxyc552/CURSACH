@@ -1,6 +1,7 @@
 package dao;
 
 import dao.impl.AnswerDaoImpl;
+import dao.impl.QuestionDaoImpl;
 import dao.impl.TestDaoImpl;
 import dao.impl.UserDaoImpl;
 
@@ -24,6 +25,9 @@ public class DaoFactory {
     }
     public AnswerDao getAnswerDao() {
         return new AnswerDaoImpl();
+    }
+    public QuestionDao getQuestionDao() {
+        return new QuestionDaoImpl();
     }
 
 }

@@ -10,6 +10,16 @@ public class Answer implements Model {
     private String answerText;
     private boolean isCorrect;
 
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", question=" + question +
+                ", answerText='" + answerText + '\'' +
+                ", isCorrect=" + isCorrect +
+                '}';
+    }
+
     public Question getQuestion() {
         return question;
     }

@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static dao.ModifyingOperation.*;
@@ -21,7 +22,6 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
 
     public static final int ID_ORDER_NUMBER = 0;
     public static final String UUID_HEADER_NAME = "UUID";
-    public static final int AMOUNT_OF_HEADERS_LINES = 1;
 
     @Override
     public E save(E model) {
@@ -53,7 +53,6 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
         try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
             List<CSVRecord> list = parser.getRecords();
             return list.stream()
-                    .skip(AMOUNT_OF_HEADERS_LINES)
                     .map(rowMapper::mapRowFromRecord)
                     .collect(Collectors.toList());
         } catch (Exception e) {
@@ -69,7 +68,6 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
         try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
             List<CSVRecord> list = parser.getRecords();
             return list.stream()
-                    .skip(AMOUNT_OF_HEADERS_LINES)
                     .filter(n -> n.get(UUID_HEADER_NAME).equalsIgnoreCase(id.toString()))
                     .map(rowMapper::mapRowFromRecord)
                     .findFirst()
@@ -105,6 +103,37 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
                 s = getModelData(model).toArray(new String[0]);
             }
             printRecord(printer, s);
+        }
+    }
+
+    protected E findSingleModelByPredicate(Predicate<CSVRecord> conditions) {
+        File f = getDataFile();
+        RowMapper<E> rowMapper = getRowMapper();
+        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+            List<CSVRecord> list = parser.getRecords();
+            return list.stream()
+                    .filter(conditions)
+                    .map(rowMapper::mapRowFromRecord)
+                    .findFirst()
+                    .orElseThrow(ModelNotFoundException::new);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected exception");
+        }
+    }
+
+    protected List<E> findMultipleModelsByPredicate(Predicate<CSVRecord> conditions) {
+        File f = getDataFile();
+        RowMapper<E> rowMapper = getRowMapper();
+        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+            List<CSVRecord> list = parser.getRecords();
+            return list.stream()
+                    .filter(conditions)
+                    .map(rowMapper::mapRowFromRecord)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected exception");
         }
     }
 

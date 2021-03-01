@@ -4,28 +4,36 @@ import dao.AbstractDao;
 import dao.UserDao;
 import dao.rowmapper.RowMapper;
 import dao.rowmapper.impl.UserRowMapper;
+import model.user.Role;
 import model.user.User;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class UserDaoImpl extends AbstractDao <User> implements UserDao {
     private static final File dataFile = new File("data", "users.csv");
 
     @Override
     public User getUserByLogin(String login) {
-        return null;
+        Predicate<CSVRecord> loginPredicate = n -> n.get("login").equals(login);
+        return findSingleModelByPredicate(loginPredicate);
     }
 
     @Override
     public User getTeacherByLogin(String login) {
-        return null;
+        Predicate<CSVRecord> loginPredicate = n -> n.get("login").equals(login);
+        Predicate<CSVRecord> finalPredicate = loginPredicate.and(n -> n.get("role").equals(Role.TEACHER.name()));
+        return findSingleModelByPredicate(finalPredicate);
     }
 
     @Override
     public User getStudentByLogin(String login) {
-        return null;
+        Predicate<CSVRecord> loginPredicate = n -> n.get("login").equals(login);
+        Predicate<CSVRecord> finalPredicate = loginPredicate.and(n -> n.get("role").equals(Role.STUDENT.name()));
+        return findSingleModelByPredicate(finalPredicate);
     }
 
     @Override
