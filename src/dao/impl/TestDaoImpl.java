@@ -2,6 +2,8 @@ package dao.impl;
 
 import dao.AbstractDao;
 import dao.TestDao;
+import dao.rowmapper.RowMapper;
+import dao.rowmapper.impl.TestRowMapper;
 import model.test.Test;
 import model.user.User;
 
@@ -14,6 +16,11 @@ public class TestDaoImpl extends AbstractDao<Test> implements TestDao {
     @Override
     public Test findTestByName(String name) {
         return null;
+    }
+
+    @Override
+    protected RowMapper<Test> getRowMapper() {
+        return new TestRowMapper();
     }
 
     @Override

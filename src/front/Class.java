@@ -87,6 +87,8 @@ public class Class extends JDialog {
         DaoFactory.getInstance().getUserDao().delete(user2);
         user.setSurname("changedSurname");
         DaoFactory.getInstance().getUserDao().update(user);
+        System.out.println(DaoFactory.getInstance().getUserDao().findAll());
+        System.out.println(DaoFactory.getInstance().getUserDao().findById(user.getId()));
 
 
 //

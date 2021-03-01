@@ -1,6 +1,8 @@
 package dao.impl;
 
 import dao.*;
+import dao.rowmapper.RowMapper;
+import dao.rowmapper.impl.StatisticsRowMapper;
 import model.result.Statistics;
 import model.user.User;
 
@@ -16,6 +18,11 @@ private File dataFile = new File("data", "statistics.csv");
     @Override
     public List<Statistics> findAllForUser(User user) {
         return null;
+    }
+
+    @Override
+    protected RowMapper<Statistics> getRowMapper() {
+        return new StatisticsRowMapper();
     }
 
     @Override

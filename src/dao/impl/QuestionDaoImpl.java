@@ -1,6 +1,8 @@
 package dao.impl;
 
 import dao.*;
+import dao.rowmapper.RowMapper;
+import dao.rowmapper.impl.QuestionRowMapper;
 import model.test.Question;
 import model.test.Test;
 
@@ -21,6 +23,11 @@ public class QuestionDaoImpl extends AbstractDao <Question> implements QuestionD
     @Override
     public Question getQuestionByName(String name) {
         return null;
+    }
+
+    @Override
+    protected RowMapper<Question> getRowMapper() {
+        return new QuestionRowMapper();
     }
 
     @Override

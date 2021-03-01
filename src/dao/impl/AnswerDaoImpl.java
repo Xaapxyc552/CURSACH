@@ -2,6 +2,8 @@ package dao.impl;
 
 import dao.AbstractDao;
 import dao.AnswerDao;
+import dao.rowmapper.RowMapper;
+import dao.rowmapper.impl.AnswerRowMapper;
 import model.test.Answer;
 import model.test.Test;
 import model.user.User;
@@ -15,6 +17,11 @@ public class AnswerDaoImpl extends AbstractDao<Answer> implements AnswerDao {
     @Override
     public List<Answer> findAnswersForTest(Test test) {
         return null;
+    }
+
+    @Override
+    protected RowMapper<Answer> getRowMapper() {
+        return new AnswerRowMapper();
     }
 
     @Override

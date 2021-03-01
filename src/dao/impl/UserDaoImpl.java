@@ -2,6 +2,8 @@ package dao.impl;
 
 import dao.AbstractDao;
 import dao.UserDao;
+import dao.rowmapper.RowMapper;
+import dao.rowmapper.impl.UserRowMapper;
 import model.user.User;
 
 import java.io.File;
@@ -29,6 +31,11 @@ public class UserDaoImpl extends AbstractDao <User> implements UserDao {
     @Override
     protected File getDataFile() {
         return dataFile;
+    }
+
+    @Override
+    protected RowMapper<User> getRowMapper() {
+        return new UserRowMapper();
     }
 
     @Override

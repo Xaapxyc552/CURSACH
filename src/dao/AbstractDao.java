@@ -1,5 +1,7 @@
 package dao;
 
+import dao.rowmapper.RowMapper;
+import exceptions.ModelNotFoundException;
 import model.Model;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -10,10 +12,16 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static dao.ModifyingOperation.*;
 
 public abstract class AbstractDao<E extends Model> implements Dao<E> {
 
     public static final int ID_ORDER_NUMBER = 0;
+    public static final String UUID_HEADER_NAME = "UUID";
+    public static final int AMOUNT_OF_HEADERS_LINES = 1;
 
     @Override
     public E save(E model) {
@@ -29,16 +37,50 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
 
     @Override
     public E update(E model) {
-        doSomethingWithMode(model, Operation.UPDATE);
+        performModifyingOperation(model, UPDATE);
         return model;
     }
 
     @Override
     public void delete(E model) {
-        doSomethingWithMode(model, Operation.DELETE);
+        performModifyingOperation(model, DELETE);
     }
 
-    private void doSomethingWithMode(E model, Operation operation) {
+    @Override
+    public List<E> findAll() {
+        File f = getDataFile();
+        RowMapper<E> rowMapper = getRowMapper();
+        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+            List<CSVRecord> list = parser.getRecords();
+            return list.stream()
+                    .skip(AMOUNT_OF_HEADERS_LINES)
+                    .map(rowMapper::mapRowFromRecord)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected exception");
+        }
+    }
+
+    @Override
+    public E findById(UUID id) {
+        File f = getDataFile();
+        RowMapper<E> rowMapper = getRowMapper();
+        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+            List<CSVRecord> list = parser.getRecords();
+            return list.stream()
+                    .skip(AMOUNT_OF_HEADERS_LINES)
+                    .filter(n -> n.get(UUID_HEADER_NAME).equalsIgnoreCase(id.toString()))
+                    .map(rowMapper::mapRowFromRecord)
+                    .findFirst()
+                    .orElseThrow(ModelNotFoundException::new);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected exception");
+        }
+    }
+
+    private void performModifyingOperation(E model, ModifyingOperation operation) {
         File f = getDataFile();
         try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withSkipHeaderRecord())) {
             List<CSVRecord> list = parser.getRecords();
@@ -52,27 +94,18 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
         }
     }
 
-    private void iterateOverRecords(E model, Operation operation, List<CSVRecord> list, CSVPrinter printer) throws Exception {
+    private void iterateOverRecords(E model, ModifyingOperation operation, List<CSVRecord> list, CSVPrinter printer)
+            throws Exception {
         for (CSVRecord record : list) {
-            String[] s = toArray(record);
-            if (operation.equals(Operation.DELETE) && isNeededRecord(model, s[ID_ORDER_NUMBER])) {
+            String[] s = recordToArray(record);
+            if (operation.equals(DELETE) && isNeededRecord(model, s[ID_ORDER_NUMBER])) {
                 continue;
             }
-            if (operation.equals(Operation.UPDATE) && isNeededRecord(model, s[ID_ORDER_NUMBER])) {
+            if (operation.equals(UPDATE) && isNeededRecord(model, s[ID_ORDER_NUMBER])) {
                 s = getModelData(model).toArray(new String[0]);
             }
-            print(printer, s);
+            printRecord(printer, s);
         }
-    }
-
-    @Override
-    public List<E> findAll() {
-        return null;
-    }
-
-    @Override
-    public E findById(long id) {
-        return null;
     }
 
     private boolean isNeededRecord(E model, String s2) {
@@ -80,7 +113,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     }
 
 
-    public static String[] toArray(CSVRecord rec) {
+    public static String[] recordToArray(CSVRecord rec) {
         String[] arr = new String[rec.size()];
         int i = 0;
         for (String str : rec) {
@@ -90,7 +123,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     }
 
 
-    public static void print(CSVPrinter printer, String[] s) throws Exception {
+    public static void printRecord(CSVPrinter printer, String[] s) throws Exception {
         for (String val : s) {
             printer.print(val != null ? String.valueOf(val) : "");
         }
@@ -102,4 +135,6 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     protected abstract File getDataFile();
 
     protected abstract List<String> getModelData(E model);
+
+    protected abstract RowMapper<E> getRowMapper();
 }

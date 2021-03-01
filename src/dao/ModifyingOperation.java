@@ -1,5 +1,5 @@
 package dao;
 
-public enum Operation {
+public enum ModifyingOperation {
     DELETE,UPDATE
 }
