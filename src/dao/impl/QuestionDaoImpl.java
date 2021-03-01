@@ -4,37 +4,14 @@ import dao.*;
 import model.test.Question;
 import model.test.Test;
 
+import java.io.File;
 import java.util.List;
 
-public class QuestionDaoImpl implements QuestionDao {
+public class QuestionDaoImpl extends AbstractDao <Question> implements QuestionDao {
+    private File dataFile = new File("data", "questions.csv");
 
     private TestDao testDao = DaoFactory.getInstance().getTestDao();
     private AnswerDao answerDao = DaoFactory.getInstance().getAnswerDao();
-
-    @Override
-    public Question save(Question model) {
-        return null;
-    }
-
-    @Override
-    public Question update(Question model) {
-        return null;
-    }
-
-    @Override
-    public void delete(Question model) {
-
-    }
-
-    @Override
-    public List<Question> findAll() {
-        return null;
-    }
-
-    @Override
-    public Question findById(long id) {
-        return null;
-    }
 
     @Override
     public List<Question> getAllQuestionsForTest(Test test) {
@@ -43,6 +20,21 @@ public class QuestionDaoImpl implements QuestionDao {
 
     @Override
     public Question getQuestionByName(String name) {
+        return null;
+    }
+
+    @Override
+    protected String[] getModelHeaders() {
+        return new String[0];
+    }
+
+    @Override
+    protected File getDataFile() {
+        return dataFile;
+    }
+
+    @Override
+    protected List<String> getModelData(Question model) {
         return null;
     }
 }

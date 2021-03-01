@@ -1,36 +1,15 @@
 package dao.impl;
 
+import dao.AbstractDao;
 import dao.UserDao;
 import model.user.User;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoImpl implements UserDao {
-
-    @Override
-    public User save(User model) {
-        return null;
-    }
-
-    @Override
-    public User update(User model) {
-        return null;
-    }
-
-    @Override
-    public void delete(User model) {
-
-    }
-
-    @Override
-    public List<User> findAll() {
-        return null;
-    }
-
-    @Override
-    public User findById(long id) {
-        return null;
-    }
+public class UserDaoImpl extends AbstractDao <User> implements UserDao {
+    private static final File dataFile = new File("data", "users.csv");
 
     @Override
     public User getUserByLogin(String login) {
@@ -45,5 +24,27 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getStudentByLogin(String login) {
         return null;
+    }
+
+    @Override
+    protected File getDataFile() {
+        return dataFile;
+    }
+
+    @Override
+    protected String[] getModelHeaders() {
+        return new String[]{"UUID","login","password","name","surname","role"};
+    }
+
+    @Override
+    protected List<String> getModelData(User model) {
+        List<String> modelData = new ArrayList<>();
+        modelData.add(model.getId().toString());
+        modelData.add(model.getLogin());
+        modelData.add(model.getPassword());
+        modelData.add(model.getName());
+        modelData.add(model.getSurname());
+        modelData.add(model.getRole().toString());
+        return modelData;
     }
 }

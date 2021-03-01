@@ -13,7 +13,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public List<Test> getAllTests() {
-        return testDao.getAllTests();
+        return testDao.findAll();
     }
 
     @Override
