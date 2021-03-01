@@ -2,8 +2,10 @@ package model.test;
 
 import model.Model;
 
+import java.util.UUID;
+
 public class Answer implements Model {
-    private long id;
+    private UUID id;
     private Question question;
     private String answerText;
     private boolean isCorrect;
@@ -33,11 +35,11 @@ public class Answer implements Model {
     }
 
     @Override
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

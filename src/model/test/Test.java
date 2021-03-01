@@ -4,13 +4,23 @@ import model.Model;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.UUID;
 
 public class Test implements Model {
-    private long id;
+    private UUID id;
     private String name;
     private String topic;
     private List<Question> questions;
     private Duration timeForTest;
+    private double maximumPoints;
+
+    public double getMaximumPoints() {
+        return maximumPoints;
+    }
+
+    public void setMaximumPoints(double maximumPoints) {
+        this.maximumPoints = maximumPoints;
+    }
 
     public String getName() {
         return name;
@@ -45,11 +55,11 @@ public class Test implements Model {
     }
 
     @Override
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

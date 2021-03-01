@@ -3,9 +3,10 @@ package model.test;
 import model.Model;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Question implements Model {
-    private long id;
+    private UUID id;
     private Test test;
     private String name;
     private String questionText;
@@ -53,11 +54,11 @@ public class Question implements Model {
     }
 
     @Override
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

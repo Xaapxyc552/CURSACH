@@ -1,5 +1,5 @@
 package model.user;
 
 public enum Role {
-    STUDENT,TEACHER
+    STUDENT,TEACHER,ADMIN
 }
