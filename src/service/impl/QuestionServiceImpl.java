@@ -1,5 +1,6 @@
 package service.impl;
 
+import dao.AnswerDao;
 import dao.DaoFactory;
 import dao.QuestionDao;
 import model.test.Question;
@@ -11,6 +12,7 @@ import java.util.List;
 public class QuestionServiceImpl implements QuestionService {
 
     private QuestionDao questionDao = DaoFactory.getInstance().getQuestionDao();
+    private AnswerDao answerDao = DaoFactory.getInstance().getAnswerDao();
 
     @Override
     public Question createNewQuestion(Question question) {
@@ -24,6 +26,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public boolean deleteQuestion(Question question) {
+        question.getAnswerList().forEach(answerDao::delete);
         questionDao.delete(question);
         return true;
     }

@@ -16,8 +16,8 @@ public class ChangeTestDialog extends JDialog {
     private JButton modifyQuestionButton;
     private JButton createQuestionButton;
     private JList<Question> questionList  = new JList<>();;
-    private JPanel buttonPanel = new JPanel();
-    private JPanel listPanel = new JPanel();
+    private JPanel buttonPanel;
+    private JPanel listPanel;
     private QuestionService questionService = ServiceFactory.getInstance().getQuestionService();
     private Test attachedTest;
 
@@ -31,7 +31,7 @@ public class ChangeTestDialog extends JDialog {
 
         deleteQuestionButton.addActionListener(e -> deleteSelectedQuestion());
         modifyQuestionButton.addActionListener(e -> createModifyingDialog());
-        createQuestionButton.addActionListener(e -> createQuestionDialog());
+        createQuestionButton.addActionListener(e -> createQuestionDialog(attachedTest));
 
         fillListWithQuestions();
 
@@ -54,7 +54,7 @@ public class ChangeTestDialog extends JDialog {
     }
 
     private void createLayout() {
-        setSize(400, 400);
+        setSize(600, 400);
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(deleteQuestionButton);
         buttonPanel.add(modifyQuestionButton);
@@ -67,8 +67,8 @@ public class ChangeTestDialog extends JDialog {
         setListSelectionModel();
     }
 
-    private void createQuestionDialog() {
-
+    private void createQuestionDialog(Test test) {
+        new CreateQuestionDialog(attachedTest).setVisible(true);
     }
 
     private void setListSelectionModel() {
@@ -79,6 +79,9 @@ public class ChangeTestDialog extends JDialog {
 
     private void deleteSelectedQuestion() {
         Question questionToDelete = questionList.getSelectedValue();
+        if (questionToDelete==null) {
+            return;
+        }
         questionService.deleteQuestion(questionToDelete);
         fillListWithQuestions();
     }

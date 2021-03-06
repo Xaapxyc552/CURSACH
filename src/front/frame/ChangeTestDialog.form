@@ -8,60 +8,42 @@
     <properties/>
     <border type="none" title="Вікно зміни тесту"/>
     <children>
-      <grid id="9538f" binding="buttonPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="9538f" binding="buttonPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none" title="Операції"/>
         <children>
-          <component id="5723f" class="javax.swing.JButton" binding="modifyQuestionButton">
-            <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="142" height="52"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Редагувати питання"/>
-            </properties>
-          </component>
-          <component id="4a67e" class="javax.swing.JButton" binding="createQuestionButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="134" height="52"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Створити питання"/>
-            </properties>
-          </component>
           <component id="e7465" class="javax.swing.JButton" binding="deleteQuestionButton">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="134" height="52"/>
-              </grid>
-            </constraints>
+            <constraints border-constraint="West"/>
             <properties>
               <text value="Видалити питання"/>
             </properties>
           </component>
+          <component id="4a67e" class="javax.swing.JButton" binding="createQuestionButton" default-binding="true">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <text value="Створити питання"/>
+            </properties>
+          </component>
+          <component id="5723f" class="javax.swing.JButton" binding="modifyQuestionButton">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Редагувати питання"/>
+            </properties>
+          </component>
         </children>
       </grid>
-      <grid id="bd367" binding="listPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="bd367" binding="listPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="none" title="Питання"/>
         <children>
           <component id="2c212" class="javax.swing.JList" binding="questionList" default-binding="true">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="109"/>
-              </grid>
-            </constraints>
+            <constraints border-constraint="Center"/>
             <properties>
               <model/>
             </properties>

@@ -18,6 +18,10 @@ public class DataStorageInitializer {
     private DataStorageInitializer() {
     }
 
+    public static void clearData() {
+        dataFiles.forEach(n -> n.delete());
+    }
+
     public static void initializeDataStorage() {
         dataFiles.stream()
                 .filter(DataStorageInitializer::checkIsAvailable)
