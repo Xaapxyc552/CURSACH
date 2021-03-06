@@ -69,6 +69,7 @@ public class ChangeTestDialog extends JDialog {
 
     private void createQuestionDialog(Test test) {
         new CreateQuestionDialog(attachedTest).setVisible(true);
+        fillListWithQuestions();
     }
 
     private void setListSelectionModel() {

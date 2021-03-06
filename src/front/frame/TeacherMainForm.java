@@ -1,22 +1,17 @@
 package front.frame;
 
-import front.frame.registry.FrameRegistry;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
-public class TeacherMainPanel extends JFrame {
+public class TeacherMainForm extends JDialog {
     private JPanel contentPane;
     private JButton testsListButton;
     private JButton createTestButton;
 
-    public TeacherMainPanel() throws HeadlessException {
-        setContentPane(contentPane);
-        getContentPane().setLayout(new GridLayout(3, 2, 2, 2));
-        getContentPane().add(testsListButton);
-        getContentPane().add(createTestButton);
+
+    public TeacherMainForm() {
+        createLayout();
 
         testsListButton.addActionListener(e -> openTestListFrame());
         createTestButton.addActionListener(e -> openCreateTestFrame());
@@ -31,11 +26,19 @@ public class TeacherMainPanel extends JFrame {
 
     }
 
+    private void createLayout() {
+        setContentPane(contentPane);
+        getContentPane().setLayout(new GridLayout(2, 2, 2, 2));
+        getContentPane().add(testsListButton);
+        getContentPane().add(createTestButton);
+    }
+
     private void openCreateTestFrame() {
 //        new CreateTestFrame();
     }
 
     private void openTestListFrame() {
+        dispose();
 //        JFrame frame = FrameRegistry.getInstance().getFrame(TestsListFrame.class);
         new TestsListFrame().setVisible(true);
 

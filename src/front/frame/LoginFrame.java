@@ -52,12 +52,12 @@ public class LoginFrame extends JFrame {
         try {
             user = loginService.findUser(login, password);
         } catch (ModelNotFoundException exception) {
-            showWringCredentialsDialog();
+            showWrongCredentialsDialog();
             return;
         }
         if (user.getRole().equals(Role.TEACHER)) {
             dispose();
-            new TeacherMainPanel().setVisible(true);
+            new TeacherMainForm().setVisible(true);
             return;
         }
         if (user.getRole().equals(Role.STUDENT)) {
@@ -65,7 +65,7 @@ public class LoginFrame extends JFrame {
         }
     }
 
-    private void showWringCredentialsDialog() {
+    private void showWrongCredentialsDialog() {
         JOptionPane.showMessageDialog(null,
                 "Вы ввели неправильный логин или пароль!",
                 "Неправильные данные входа",

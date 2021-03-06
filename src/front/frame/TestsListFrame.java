@@ -49,6 +49,9 @@ public class TestsListFrame extends JFrame{
 
     private void createTestChangeDialog() {
         Test selectedValue = testsList.getSelectedValue();
+        if (selectedValue==null) {
+            return;
+        }
         new ChangeTestDialog(selectedValue).setVisible(true);
     }
 

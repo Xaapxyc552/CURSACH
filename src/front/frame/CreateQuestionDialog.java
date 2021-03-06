@@ -62,7 +62,6 @@ public class CreateQuestionDialog extends JDialog {
         question.setTest(attachedTest);
         question.setId(UUID.randomUUID());
         questionService.createNewQuestion(question);
-//        getParent()
         dispose();
     }
 
