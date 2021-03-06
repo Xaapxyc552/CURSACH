@@ -116,9 +116,9 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
                     .map(rowMapper::mapRowFromRecord)
                     .findFirst()
                     .orElseThrow(ModelNotFoundException::new);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unexpected exception");
+        } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Unexpected exception");
         }
     }
 

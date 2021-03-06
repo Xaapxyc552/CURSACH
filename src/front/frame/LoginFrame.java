@@ -1,14 +1,17 @@
-package front;
+package front.frame;
 
 import dao.AnswerDao;
 import dao.DaoFactory;
 import dao.DataStorageInitializer;
 import dao.QuestionDao;
+import exceptions.ModelNotFoundException;
 import model.test.Answer;
 import model.test.Question;
 import model.test.Test;
 import model.user.Role;
 import model.user.User;
+import service.LoginService;
+import service.ServiceFactory;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -17,25 +20,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Class extends JDialog {
+public class LoginFrame extends JFrame {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton loginButton;
+    private JTextField loginTextField;
+    private JPasswordField passwordPasswordField;
+    private final LoginService loginService = ServiceFactory.getInstance().getLoginService();
 
-    public Class() {
+    public LoginFrame() {
         setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(loginButton);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
+        loginButton.addActionListener(e -> {
+            String login = loginTextField.getText();
+            String password = String.valueOf(passwordPasswordField.getPassword());
+            User user = null;
+            try {
+                user = loginService.findUser(login, password);
+            } catch (ModelNotFoundException exception) {
+                showWringCredentialsDialog();
+                return;
             }
-        });
+            if (user.getRole().equals(Role.TEACHER)) {
+                dispose();
+                new TeacherMainPanel().setVisible(true);
+                return;
+            }
+            if (user.getRole().equals(Role.STUDENT)) {
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
             }
         });
 
@@ -47,17 +59,13 @@ public class Class extends JDialog {
             }
         });
 
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    private void showWringCredentialsDialog() {
+        JOptionPane.showMessageDialog(null,
+                "Вы ввели неправильный логин или пароль!",
+                "Неправильные данные входа",
+                JOptionPane.ERROR_MESSAGE);
     }
 
     private void onCancel() {
@@ -67,41 +75,41 @@ public class Class extends JDialog {
 
     public static void main(String[] args) {
         DataStorageInitializer.initializeDataStorage();
-        User user = new User();
-        user.setId(UUID.randomUUID());
-        user.setName("name1");
-        user.setSurname("surname");
-        user.setPassword("password");
-        user.setLogin("login");
-        user.setRole(Role.STUDENT);
-        DaoFactory.getInstance().getUserDao().save(user);
-        User user2 = new User();
-        user2.setId(UUID.randomUUID());
-        user2.setName("name2");
-        user2.setSurname("surname");
-        user2.setPassword("password");
-        user2.setLogin("login");
-        user2.setRole(Role.STUDENT);
-        DaoFactory.getInstance().getUserDao().save(user2);
-        User user3 = new User();
-        user3.setId(UUID.randomUUID());
-        user3.setName("name3");
-        user3.setSurname("surname");
-        user3.setPassword("password");
-        user3.setLogin("login");
-        user3.setRole(Role.STUDENT);
-        DaoFactory.getInstance().getUserDao().save(user3);
-
-        DaoFactory.getInstance().getUserDao().delete(user2);
-        user.setSurname("changedSurname");
-        DaoFactory.getInstance().getUserDao().update(user);
-        System.out.println(DaoFactory.getInstance().getUserDao().findAll());
-        System.out.println(DaoFactory.getInstance().getUserDao().findById(user.getId()));
-
-        System.out.println(DaoFactory.getInstance().getUserDao().getUserByLogin("login"));
-        System.out.println(DaoFactory.getInstance().getUserDao().getStudentByLogin("login"));
-        System.out.println(DaoFactory.getInstance().getUserDao().getTeacherByLogin("login"));
-
+//        User user = new User();
+//        user.setId(UUID.randomUUID());
+//        user.setName("name1");
+//        user.setSurname("surname");
+//        user.setPassword("password");
+//        user.setLogin("login");
+//        user.setRole(Role.STUDENT);
+//        DaoFactory.getInstance().getUserDao().save(user);
+//        User user2 = new User();
+//        user2.setId(UUID.randomUUID());
+//        user2.setName("name2");
+//        user2.setSurname("surname");
+//        user2.setPassword("password");
+//        user2.setLogin("login");
+//        user2.setRole(Role.STUDENT);
+//        DaoFactory.getInstance().getUserDao().save(user2);
+//        User user3 = new User();
+//        user3.setId(UUID.randomUUID());
+//        user3.setName("name3");
+//        user3.setSurname("surname");
+//        user3.setPassword("password");
+//        user3.setLogin("login");
+//        user3.setRole(Role.STUDENT);
+//        DaoFactory.getInstance().getUserDao().save(user3);
+//
+//        DaoFactory.getInstance().getUserDao().delete(user2);
+//        user.setSurname("changedSurname");
+//        DaoFactory.getInstance().getUserDao().update(user);
+//        System.out.println(DaoFactory.getInstance().getUserDao().findAll());
+//        System.out.println(DaoFactory.getInstance().getUserDao().findById(user.getId()));
+//
+//        System.out.println(DaoFactory.getInstance().getUserDao().getUserByLogin("login"));
+//        System.out.println(DaoFactory.getInstance().getUserDao().getStudentByLogin("login"));
+//        System.out.println(DaoFactory.getInstance().getUserDao().getTeacherByLogin("login"));
+//
 //        Test test = new Test();
 //        test.setId(UUID.randomUUID());
 //        test.setName("name1");
@@ -175,7 +183,7 @@ public class Class extends JDialog {
 //        question.setId(UUID.fromString("8bdb012b-f281-428b-b0c6-56523853bbf6"));
 //        AnswerDao answerDao = DaoFactory.getInstance().getAnswerDao();
 //        System.out.println(answerDao.findAnswersForQuestion(question));
-////
+//////
 //        System.out.println(DaoFactory.getInstance().getTestDao().save(test));
 //        QuestionDao questionDao = DaoFactory.getInstance().getQuestionDao();
 //        questionList.forEach(questionDao::save);
@@ -185,9 +193,9 @@ public class Class extends JDialog {
 
 
 //
-//        Class dialog = new Class();
-//        dialog.pack();
-//        dialog.setVisible(true);
-        System.exit(0);
+        LoginFrame dialog = new LoginFrame();
+        dialog.pack();
+        dialog.setVisible(true);
+//        System.exit(0);
     }
 }

@@ -16,6 +16,6 @@ public class QuestionRowMapper implements RowMapper<Question> {
         question.setName(record.get("name"));
         question.setQuestionText(record.get("questionText"));
         question.setAmountOfPoints(Double.parseDouble(record.get("amountOfPoints")));
-        return null;
+        return question;
     }
 }

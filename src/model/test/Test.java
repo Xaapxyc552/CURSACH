@@ -62,4 +62,9 @@ public class Test implements Model {
     public void setId(UUID id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return topic + ". " + name;
+    }
 }

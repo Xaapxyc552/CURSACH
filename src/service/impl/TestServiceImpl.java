@@ -18,16 +18,17 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Test createTest(Test test) {
-        return null;
+        return testDao.save(test);
     }
 
     @Override
     public Test updateTest(Test test) {
-        return null;
+        return testDao.update(test);
     }
 
     @Override
     public boolean deleteTest(Test test) {
-        return false;
+        testDao.delete(test);
+        return true;
     }
 }
