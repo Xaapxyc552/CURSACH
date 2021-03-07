@@ -28,13 +28,10 @@ public class TeacherMainForm extends JDialog {
 
     private void createLayout() {
         setContentPane(contentPane);
-        getContentPane().setLayout(new GridLayout(2, 2, 2, 2));
-        getContentPane().add(testOperationButton);
-        getContentPane().add(studentStatisticsButton);
     }
 
     private void openStudentStatisticsFrame() {
-        new CreateTestFrame().setVisible(true);
+//        new CreateTestFrame().setVisible(true);
     }
 
     private void openTestOperationsFrame() {

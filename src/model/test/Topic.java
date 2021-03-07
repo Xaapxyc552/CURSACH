@@ -27,6 +27,6 @@ public class Topic implements Model {
 
     @Override
     public String toString() {
-        return "Тема: " + name;
+        return "Предмет: " + name;
     }
 }

@@ -22,13 +22,14 @@ public class CreateTestFrame extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField testNameField;
-    private JComboBox topicBox;
+    private JComboBox<Topic> topicBox;
     private JTextField testTimeField;
+    private JButton createTopicButton;
     private TestService testService = ServiceFactory.getInstance().getTestService();
     private TopicService topicService = ServiceFactory.getInstance().getTopicService();
 
     public CreateTestFrame() {
-        setSize(400, 400);
+        setSize(500, 400);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -37,8 +38,8 @@ public class CreateTestFrame extends JDialog {
 
 
         buttonOK.addActionListener(e -> saveNewTest());
-
         buttonCancel.addActionListener(e -> onCancel());
+        createTopicButton.addActionListener(e -> createTopicDialog());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -52,9 +53,14 @@ public class CreateTestFrame extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private void createTopicDialog() {
+        new CreateTopicDialog().setVisible(true);
+        topicBox.removeAllItems();
+        fillTopicBox();
+    }
+
     private void fillTopicBox() {
-        topicService.findAllTopics()
-                .stream().forEach(topicBox::addItem);
+        topicService.findAllTopics().forEach(topicBox::addItem);
     }
 
     private void saveNewTest() {
@@ -87,14 +93,7 @@ public class CreateTestFrame extends JDialog {
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
 
-        Duration duration = Duration.ofHours(collect.get(0)).plusMinutes(collect.get(1)).plusSeconds(collect.get(2));
-        return duration;
-    }
-
-
-    private void onOK() {
-        // add your code here
-        dispose();
+        return Duration.ofHours(collect.get(0)).plusMinutes(collect.get(1)).plusSeconds(collect.get(2));
     }
 
     private void onCancel() {

@@ -20,4 +20,9 @@ public class TopicServiceImpl implements TopicService {
     public List<Topic> findAllTopics() {
         return topicDao.findAll();
     }
+
+    @Override
+    public Topic createNewTopic(Topic topic) {
+        return topicDao.save(topic);
+    }
 }
