@@ -1,7 +1,9 @@
 package dao;
 
+import dao.impl.ModifyingOperation;
 import dao.rowmapper.RowMapper;
 import exceptions.ModelNotFoundException;
+import exceptions.UniqueConstraintViolationException;
 import model.Model;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -16,7 +18,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static dao.ModifyingOperation.*;
+import static dao.impl.ModifyingOperation.*;
 
 public abstract class AbstractDao<E extends Model> implements Dao<E> {
 
@@ -25,6 +27,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
 
     @Override
     public E save(E model) {
+        checkUniqueModel(model);
         try (BufferedWriter writer = Files.newBufferedWriter(getDataFile().toPath(), StandardOpenOption.APPEND);
              CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withSkipHeaderRecord())) {
             csvPrinter.printRecord(getModelData(model));
@@ -137,6 +140,23 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
         }
     }
 
+    private void checkUniqueModel(E model) {
+        File f = getDataFile();
+        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+            List<CSVRecord> list = parser.getRecords();
+            RowMapper<E> rowMapper = getRowMapper();
+            list.stream()
+                    .map(rowMapper::mapRowFromRecord)
+                    .filter(existingModel -> checkEqualsByUniqueFields(existingModel,model))
+                    .findFirst()
+                    //TODO написать хендлер для экепшенов
+                    .ifPresent(e -> {throw new UniqueConstraintViolationException();});
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected exception");
+        }
+    }
+
     private boolean isNeededRecord(E model, String s2) {
         return s2.equalsIgnoreCase(model.getId().toString());
     }
@@ -158,6 +178,8 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
         }
         printer.println();
     }
+
+    protected abstract boolean checkEqualsByUniqueFields(E existingModel, E modelToCheck);
 
     protected abstract String[] getModelHeaders();
 

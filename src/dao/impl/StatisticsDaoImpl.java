@@ -26,6 +26,11 @@ private File dataFile = new File("data", "statistics.csv");
     }
 
     @Override
+    protected boolean checkEqualsByUniqueFields(Statistics existingModel, Statistics modelToCheck) {
+        return existingModel.getId().equals(modelToCheck.getId());
+    }
+
+    @Override
     protected String[] getModelHeaders() {
         return new String[]{"UUID","userId","testId","dateOfStart","dateOfFinish","totalPoints"};
     }

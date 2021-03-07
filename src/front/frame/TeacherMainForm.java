@@ -6,15 +6,15 @@ import java.awt.event.*;
 
 public class TeacherMainForm extends JDialog {
     private JPanel contentPane;
-    private JButton testsListButton;
-    private JButton createTestButton;
+    private JButton testOperationButton;
+    private JButton studentStatisticsButton;
 
 
     public TeacherMainForm() {
         createLayout();
 
-        testsListButton.addActionListener(e -> openTestListFrame());
-        createTestButton.addActionListener(e -> openCreateTestFrame());
+        testOperationButton.addActionListener(e -> openTestOperationsFrame());
+        studentStatisticsButton.addActionListener(e -> openStudentStatisticsFrame());
 
 
         setSize(400, 400);
@@ -29,17 +29,17 @@ public class TeacherMainForm extends JDialog {
     private void createLayout() {
         setContentPane(contentPane);
         getContentPane().setLayout(new GridLayout(2, 2, 2, 2));
-        getContentPane().add(testsListButton);
-        getContentPane().add(createTestButton);
+        getContentPane().add(testOperationButton);
+        getContentPane().add(studentStatisticsButton);
     }
 
-    private void openCreateTestFrame() {
-//        new CreateTestFrame();
+    private void openStudentStatisticsFrame() {
+        new CreateTestFrame().setVisible(true);
     }
 
-    private void openTestListFrame() {
+    private void openTestOperationsFrame() {
 //        JFrame frame = FrameRegistry.getInstance().getFrame(TestsListFrame.class);
-        new TestsListFrame().setVisible(true);
+        new TestOperationsFrame().setVisible(true);
 
     }
 

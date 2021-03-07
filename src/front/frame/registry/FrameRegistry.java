@@ -1,7 +1,7 @@
 package front.frame.registry;
 
 import front.frame.LoginFrame;
-import front.frame.TestsListFrame;
+import front.frame.TestOperationsFrame;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -21,8 +21,8 @@ public class FrameRegistry {
     }
 
     public FrameRegistry() {
-        frameMap.put(LoginFrame.class, new TestsListFrame());
-        frameMap.put(TestsListFrame.class, new TestsListFrame());
+        frameMap.put(LoginFrame.class, new TestOperationsFrame());
+        frameMap.put(TestOperationsFrame.class, new TestOperationsFrame());
     }
 
     public JFrame getFrame(Class<? extends JFrame> frameClass) {

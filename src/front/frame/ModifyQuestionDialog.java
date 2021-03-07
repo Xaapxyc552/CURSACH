@@ -1,6 +1,5 @@
 package front.frame;
 
-import front.ChangeCreateAnswerDialog;
 import front.validation.QuestionValidator;
 import front.validation.Validator;
 import model.test.Answer;

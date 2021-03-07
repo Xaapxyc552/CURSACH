@@ -28,6 +28,11 @@ public class AnswerDaoImpl extends AbstractDao<Answer> implements AnswerDao {
     }
 
     @Override
+    protected boolean checkEqualsByUniqueFields(Answer existingModel, Answer modelToCheck) {
+        return existingModel.getId().equals(modelToCheck.getId());
+    }
+
+    @Override
     protected String[] getModelHeaders() {
         return new String[]{"UUID","questionId","answerText","isCorrect"};
     }

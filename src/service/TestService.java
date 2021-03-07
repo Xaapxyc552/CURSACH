@@ -12,4 +12,6 @@ public interface TestService extends Service {
     public Test updateTest(Test test);
 
     public boolean deleteTest(Test test);
+
+    public void recalculateAndUpdateTest(Test test);
 }

@@ -17,7 +17,6 @@ public class TestRowMapper implements RowMapper<Test> {
         Test test = new Test();
         test.setId(UUID.fromString(record.get("UUID")));
         test.setName(record.get("name"));
-        test.setTopic(record.get("topic"));
         test.setTimeForTest(Duration.parse(record.get("timeForTest")));
         test.setMaximumPoints(Double.parseDouble(record.get("maximumPoints")));
         return test;

@@ -12,7 +12,8 @@ public class DataStorageInitializer {
             new File("data", "tests.csv"),
             new File("data", "questions.csv"),
             new File("data", "answers.csv"),
-            new File("data", "statistics.csv")
+            new File("data", "statistics.csv"),
+            new File("data", "topics.csv")
     ));
 
     private DataStorageInitializer() {

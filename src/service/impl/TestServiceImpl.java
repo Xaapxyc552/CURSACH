@@ -3,6 +3,8 @@ package service.impl;
 import dao.DaoFactory;
 import dao.QuestionDao;
 import dao.TestDao;
+import dao.TopicDao;
+import model.test.Question;
 import model.test.Test;
 import service.TestService;
 
@@ -15,11 +17,14 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public List<Test> getAllTests() {
-        return testDao.findAll();
+        List<Test> all = testDao.findAll();
+        all.forEach(n -> n.setTopic(testDao.findTopicForTest(n)));
+        return all;
     }
 
     @Override
     public Test createTest(Test test) {
+        recalculateAndUpdateTest(test);
         return testDao.save(test);
     }
 
@@ -33,5 +38,15 @@ public class TestServiceImpl implements TestService {
         questionDao.getAllQuestionsForTest(test).forEach(questionDao::delete);
         testDao.delete(test);
         return true;
+    }
+
+    @Override
+    public void recalculateAndUpdateTest(Test test) {
+        double maximumPoints = questionDao.getAllQuestionsForTest(test)
+                .stream()
+                .mapToDouble(Question::getAmountOfPoints)
+                .sum();
+        test.setMaximumPoints(maximumPoints);
+        updateTest(test);
     }
 }

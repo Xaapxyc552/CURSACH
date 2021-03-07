@@ -4,6 +4,7 @@ import model.test.Question;
 import model.test.Test;
 import service.QuestionService;
 import service.ServiceFactory;
+import service.TestService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class ChangeTestDialog extends JDialog {
     private JPanel buttonPanel;
     private JPanel listPanel;
     private QuestionService questionService = ServiceFactory.getInstance().getQuestionService();
+    private TestService testService = ServiceFactory.getInstance().getTestService();
     private Test attachedTest;
 
     public ChangeTestDialog(Test test) {
@@ -38,15 +40,32 @@ public class ChangeTestDialog extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                dispose();
+                closeDialog();
             }
         });
 
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                closeDialog();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void createQuestionDialog() {
+        new CreateQuestionDialog(attachedTest).setVisible(true);
+        fillListWithQuestions();
+        testService.recalculateAndUpdateTest(attachedTest);
+
+    }
+
+    private void deleteSelectedQuestion() {
+        Question questionToDelete = questionList.getSelectedValue();
+        if (questionToDelete == null) {
+            return;
+        }
+        questionService.deleteQuestion(questionToDelete);
+        fillListWithQuestions();
+        testService.recalculateAndUpdateTest(attachedTest);
     }
 
     private void modifyQuestionDialog() {
@@ -56,6 +75,12 @@ public class ChangeTestDialog extends JDialog {
         }
         new ModifyQuestionDialog(selectedValue).setVisible(true);
         fillListWithQuestions();
+        testService.recalculateAndUpdateTest(attachedTest);
+    }
+
+    private void closeDialog() {
+
+        dispose();
     }
 
     private void createLayout() {
@@ -72,24 +97,10 @@ public class ChangeTestDialog extends JDialog {
         setListSelectionModel();
     }
 
-    private void createQuestionDialog() {
-        new CreateQuestionDialog(attachedTest).setVisible(true);
-        fillListWithQuestions();
-    }
-
     private void setListSelectionModel() {
         ListSelectionModel selectionModel = new DefaultListSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         questionList.setSelectionModel(selectionModel);
-    }
-
-    private void deleteSelectedQuestion() {
-        Question questionToDelete = questionList.getSelectedValue();
-        if (questionToDelete == null) {
-            return;
-        }
-        questionService.deleteQuestion(questionToDelete);
-        fillListWithQuestions();
     }
 
     private void fillListWithQuestions() {

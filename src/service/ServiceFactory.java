@@ -29,7 +29,11 @@ public class ServiceFactory {
         return new QuestionServiceImpl();
     }
 
-    public AnswerService getAnswerService () {
+    public AnswerService getAnswerService() {
         return new AnswerServiceImpl();
+    }
+
+    public TopicService getTopicService() {
+     return new TopicServiceImpl();
     }
 }

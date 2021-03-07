@@ -33,6 +33,11 @@ public class QuestionDaoImpl extends AbstractDao <Question> implements QuestionD
     }
 
     @Override
+    protected boolean checkEqualsByUniqueFields(Question existingModel, Question modelToCheck) {
+        return existingModel.getId().equals(modelToCheck.getId());
+    }
+
+    @Override
     protected String[] getModelHeaders() {
         return new String[]{"UUID","testId","name","questionText","amountOfPoints"};
     }

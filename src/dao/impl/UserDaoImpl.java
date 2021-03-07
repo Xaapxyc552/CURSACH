@@ -47,6 +47,12 @@ public class UserDaoImpl extends AbstractDao <User> implements UserDao {
     }
 
     @Override
+    protected boolean checkEqualsByUniqueFields(User existingModel, User modelToCheck) {
+        return existingModel.getId().equals(modelToCheck.getId()) ||
+                existingModel.getLogin().equals(modelToCheck.getLogin());
+    }
+
+    @Override
     protected String[] getModelHeaders() {
         return new String[]{"UUID","login","password","name","surname","role"};
     }
