@@ -26,7 +26,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public boolean deleteQuestion(Question question) {
-        question.getAnswerList().forEach(answerDao::delete);
+        answerDao.findAnswersForQuestion(question).forEach(answerDao::delete);
         questionDao.delete(question);
         return true;
     }

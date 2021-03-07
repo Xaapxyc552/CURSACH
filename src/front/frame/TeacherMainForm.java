@@ -38,7 +38,6 @@ public class TeacherMainForm extends JDialog {
     }
 
     private void openTestListFrame() {
-        dispose();
 //        JFrame frame = FrameRegistry.getInstance().getFrame(TestsListFrame.class);
         new TestsListFrame().setVisible(true);
 

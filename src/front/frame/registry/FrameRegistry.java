@@ -1,7 +1,6 @@
 package front.frame.registry;
 
 import front.frame.LoginFrame;
-import front.frame.TeacherMainPanel;
 import front.frame.TestsListFrame;
 
 import javax.swing.*;
@@ -23,7 +22,6 @@ public class FrameRegistry {
 
     public FrameRegistry() {
         frameMap.put(LoginFrame.class, new TestsListFrame());
-        frameMap.put(TeacherMainPanel.class, new TestsListFrame());
         frameMap.put(TestsListFrame.class, new TestsListFrame());
     }
 

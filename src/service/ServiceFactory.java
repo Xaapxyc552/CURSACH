@@ -1,9 +1,6 @@
 package service;
 
-import service.impl.LoginServiceImpl;
-import service.impl.QuestionServiceImpl;
-import service.impl.TestServiceImpl;
-import service.impl.UserServiceImpl;
+import service.impl.*;
 
 public class ServiceFactory {
 
@@ -32,4 +29,7 @@ public class ServiceFactory {
         return new QuestionServiceImpl();
     }
 
+    public AnswerService getAnswerService () {
+        return new AnswerServiceImpl();
+    }
 }

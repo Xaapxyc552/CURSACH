@@ -12,12 +12,7 @@ public class Answer implements Model {
 
     @Override
     public String toString() {
-        return "Answer{" +
-                "id=" + id +
-                ", question=" + question +
-                ", answerText='" + answerText + '\'' +
-                ", isCorrect=" + isCorrect +
-                '}';
+        return answerText + ". Правильний: " + (isCorrect ? "Так" : "Ні");
     }
 
     public Question getQuestion() {

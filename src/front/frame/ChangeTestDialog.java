@@ -15,7 +15,7 @@ public class ChangeTestDialog extends JDialog {
     private JButton deleteQuestionButton;
     private JButton modifyQuestionButton;
     private JButton createQuestionButton;
-    private JList<Question> questionList  = new JList<>();;
+    private JList<Question> questionList = new JList<>();
     private JPanel buttonPanel;
     private JPanel listPanel;
     private QuestionService questionService = ServiceFactory.getInstance().getQuestionService();
@@ -30,8 +30,8 @@ public class ChangeTestDialog extends JDialog {
         createLayout();
 
         deleteQuestionButton.addActionListener(e -> deleteSelectedQuestion());
-        modifyQuestionButton.addActionListener(e -> createModifyingDialog());
-        createQuestionButton.addActionListener(e -> createQuestionDialog(attachedTest));
+        modifyQuestionButton.addActionListener(e -> modifyQuestionDialog());
+        createQuestionButton.addActionListener(e -> createQuestionDialog());
 
         fillListWithQuestions();
 
@@ -49,8 +49,13 @@ public class ChangeTestDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void createModifyingDialog() {
-
+    private void modifyQuestionDialog() {
+        Question selectedValue = questionList.getSelectedValue();
+        if (selectedValue == null) {
+            return;
+        }
+        new ModifyQuestionDialog(selectedValue).setVisible(true);
+        fillListWithQuestions();
     }
 
     private void createLayout() {
@@ -67,7 +72,7 @@ public class ChangeTestDialog extends JDialog {
         setListSelectionModel();
     }
 
-    private void createQuestionDialog(Test test) {
+    private void createQuestionDialog() {
         new CreateQuestionDialog(attachedTest).setVisible(true);
         fillListWithQuestions();
     }
@@ -80,7 +85,7 @@ public class ChangeTestDialog extends JDialog {
 
     private void deleteSelectedQuestion() {
         Question questionToDelete = questionList.getSelectedValue();
-        if (questionToDelete==null) {
+        if (questionToDelete == null) {
             return;
         }
         questionService.deleteQuestion(questionToDelete);

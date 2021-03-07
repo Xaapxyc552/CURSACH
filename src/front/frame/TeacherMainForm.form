@@ -22,7 +22,7 @@
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
-          <text value="Створити тест "/>
+          <text value="Список тестів"/>
         </properties>
       </component>
       <component id="2abcb" class="javax.swing.JButton" binding="createTestButton">
@@ -31,7 +31,7 @@
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
-          <text value="Список тестів"/>
+          <text value="Створити тест"/>
         </properties>
       </component>
     </children>

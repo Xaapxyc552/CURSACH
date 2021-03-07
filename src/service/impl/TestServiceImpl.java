@@ -30,7 +30,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public boolean deleteTest(Test test) {
-        test.getQuestions().forEach(questionDao::delete);
+        questionDao.getAllQuestionsForTest(test).forEach(questionDao::delete);
         testDao.delete(test);
         return true;
     }
