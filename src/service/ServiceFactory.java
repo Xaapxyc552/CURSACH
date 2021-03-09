@@ -34,6 +34,14 @@ public class ServiceFactory {
     }
 
     public TopicService getTopicService() {
-     return new TopicServiceImpl();
+        return new TopicServiceImpl();
+    }
+
+    public AnswerCheckerService getAnswerCheckerService() {
+        return new AnswerCheckerServiceImpl();
+    }
+
+    public StatisticService getStatisticService() {
+        return new StatisticServiceImpl();
     }
 }

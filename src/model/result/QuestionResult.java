@@ -9,6 +9,12 @@ public class QuestionResult {
     private Question question;
     private List<Answer> providedAnswers;
 
+    public QuestionResult(Question question, List<Answer> providedAnswers) {
+        this.question = question;
+        this.providedAnswers = providedAnswers;
+    }
+
+
     public Question getQuestion() {
         return question;
     }

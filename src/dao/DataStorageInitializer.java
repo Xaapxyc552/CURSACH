@@ -29,6 +29,13 @@ public class DataStorageInitializer {
                 .forEach(DataStorageInitializer::createFile);
     }
 
+    public static boolean checkIsStorageInitialized() {
+        return dataFiles.stream()
+                .map(file -> file.exists())
+                .reduce((acc, el) -> acc && el)
+                .orElseThrow(() -> new IllegalStateException());
+    }
+
     private static boolean checkIsAvailable(File file) {
         return !(file.getParentFile().exists() && file.exists());
     }

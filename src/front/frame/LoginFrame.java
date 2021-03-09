@@ -1,13 +1,8 @@
 package front.frame;
 
-import dao.AnswerDao;
-import dao.DaoFactory;
-import dao.DataStorageInitializer;
-import dao.QuestionDao;
 import exceptions.ModelNotFoundException;
-import model.test.Answer;
-import model.test.Question;
-import model.test.Test;
+import front.frame.student.StudentMainFrame;
+import front.frame.teacher.TeacherMainFrame;
 import model.user.Role;
 import model.user.User;
 import service.LoginService;
@@ -15,10 +10,6 @@ import service.ServiceFactory;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class LoginFrame extends JFrame {
     private JPanel contentPane;
@@ -57,11 +48,13 @@ public class LoginFrame extends JFrame {
         }
         if (user.getRole().equals(Role.TEACHER)) {
             dispose();
-            new TeacherMainForm().setVisible(true);
+            new TeacherMainFrame().setVisible(true);
             return;
         }
         if (user.getRole().equals(Role.STUDENT)) {
-
+            dispose();
+            new StudentMainFrame(user).setVisible(true);
+            return;
         }
     }
 

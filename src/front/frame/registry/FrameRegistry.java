@@ -1,7 +1,7 @@
 package front.frame.registry;
 
 import front.frame.LoginFrame;
-import front.frame.TestOperationsFrame;
+import front.frame.teacher.TestOperationsFrame;
 
 import javax.swing.*;
 import java.util.HashMap;

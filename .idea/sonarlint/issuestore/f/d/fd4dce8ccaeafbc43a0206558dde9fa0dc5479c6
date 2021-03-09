@@ -1,5 +1,8 @@
 
-N
-java:S1128",Remove this unused import 'model.user.User'.(ØÒ×ûÿÿÿÿ8Ğ³éêş.
 Q
-java:S1128"/Remove this unused import 'java.time.Duration'.(ëá¯‰üÿÿÿÿ8›ùêòş.
+java:S1128"/Remove this unused import 'java.time.Duration'.(ëá¯‰üÿÿÿÿ8›ùêòş.
+a	java:S1121"FDefine and throw a dedicated exception instead of using a generic one.(‰’ë8—™øé€/
+N
+java:S1128",Remove this unused import 'model.user.User'.(ØÒ×ûÿÿÿÿ8Ğ³éêş.
+Z
+java:S1128"8Remove this unused import 'java.util.stream.Collectors'.(Óóº´úÿÿÿÿ8—™øé€/

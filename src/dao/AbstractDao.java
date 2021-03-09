@@ -11,6 +11,8 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
@@ -28,7 +30,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     @Override
     public E save(E model) {
         checkUniqueModel(model);
-        try (BufferedWriter writer = Files.newBufferedWriter(getDataFile().toPath(), StandardOpenOption.APPEND);
+        try (BufferedWriter writer = Files.newBufferedWriter(getDataFile().toPath(),StandardCharsets.UTF_8, StandardOpenOption.APPEND);
              CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withSkipHeaderRecord())) {
             csvPrinter.printRecord(getModelData(model));
             csvPrinter.flush();
@@ -53,7 +55,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     public List<E> findAll() {
         File f = getDataFile();
         RowMapper<E> rowMapper = getRowMapper();
-        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+        try (CSVParser parser = new CSVParser(new FileReader(f,StandardCharsets.UTF_8), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
             List<CSVRecord> list = parser.getRecords();
             return list.stream()
                     .map(rowMapper::mapRowFromRecord)
@@ -68,7 +70,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     public E findById(UUID id) {
         File f = getDataFile();
         RowMapper<E> rowMapper = getRowMapper();
-        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+        try (CSVParser parser = new CSVParser(new FileReader(f,StandardCharsets.UTF_8), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
             List<CSVRecord> list = parser.getRecords();
             return list.stream()
                     .filter(n -> n.get(UUID_HEADER_NAME).equalsIgnoreCase(id.toString()))
@@ -83,11 +85,11 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
 
     private void performModifyingOperation(E model, ModifyingOperation operation) {
         File f = getDataFile();
-        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withSkipHeaderRecord())) {
+        try (CSVParser parser = new CSVParser(new FileReader(f,StandardCharsets.UTF_8), CSVFormat.DEFAULT.withSkipHeaderRecord())) {
             List<CSVRecord> list = parser.getRecords();
             String edited = f.getAbsolutePath();
             f.delete();
-            try (CSVPrinter printer = new CSVPrinter(new FileWriter(edited), CSVFormat.DEFAULT.withSkipHeaderRecord())) {
+            try (CSVPrinter printer = new CSVPrinter(new FileWriter(edited, StandardCharsets.UTF_8), CSVFormat.DEFAULT.withSkipHeaderRecord())) {
                 iterateOverRecords(model, operation, list, printer);
             }
         } catch (Exception e) {
@@ -112,7 +114,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     protected E findSingleModelByPredicate(Predicate<CSVRecord> conditions) {
         File f = getDataFile();
         RowMapper<E> rowMapper = getRowMapper();
-        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+        try (CSVParser parser = new CSVParser(new FileReader(f,StandardCharsets.UTF_8), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
             List<CSVRecord> list = parser.getRecords();
             return list.stream()
                     .filter(conditions)
@@ -128,7 +130,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
     protected List<E> findMultipleModelsByPredicate(Predicate<CSVRecord> conditions) {
         File f = getDataFile();
         RowMapper<E> rowMapper = getRowMapper();
-        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+        try (CSVParser parser = new CSVParser(new FileReader(f,StandardCharsets.UTF_8), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
             List<CSVRecord> list = parser.getRecords();
             return list.stream()
                     .filter(conditions)
@@ -142,7 +144,7 @@ public abstract class AbstractDao<E extends Model> implements Dao<E> {
 
     private void checkUniqueModel(E model) {
         File f = getDataFile();
-        try (CSVParser parser = new CSVParser(new FileReader(f), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
+        try (CSVParser parser = new CSVParser(new FileReader(f,StandardCharsets.UTF_8), CSVFormat.DEFAULT.withHeader(getModelHeaders()))) {
             List<CSVRecord> list = parser.getRecords();
             RowMapper<E> rowMapper = getRowMapper();
             list.stream()
