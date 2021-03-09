@@ -36,7 +36,7 @@ public class StudentMainFrame extends JFrame {
     }
 
     private void openStudentStatisticsFrame() {
-//        new CreateTestFrame().setVisible(true);
+        new StatisticsBrowseDialog(loggedInUser).setVisible(true);
     }
 
     private void openTestChoseDialog() {

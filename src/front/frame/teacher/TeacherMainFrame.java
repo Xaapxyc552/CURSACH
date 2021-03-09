@@ -30,7 +30,7 @@ public class TeacherMainFrame extends JDialog {
     }
 
     private void openStudentStatisticsFrame() {
-//        new CreateTestFrame().setVisible(true);
+        new BrowseStatisticsTeacherDialog().setVisible(true);
     }
 
     private void openTestOperationsFrame() {

@@ -33,6 +33,10 @@ public class DaoFactory {
         return new TopicDaoImpl();
     }
 
+    public StatisticsDao getStatisticDao() {
+        return new StatisticsDaoImpl();
+    }
+
 }
 
 

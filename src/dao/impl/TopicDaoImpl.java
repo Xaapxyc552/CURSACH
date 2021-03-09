@@ -44,4 +44,6 @@ public class TopicDaoImpl extends AbstractDao<Topic> implements TopicDao {
         data.add(model.getName());
         return data;
     }
+
+
 }

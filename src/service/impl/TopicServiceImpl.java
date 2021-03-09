@@ -2,6 +2,7 @@ package service.impl;
 
 import dao.DaoFactory;
 import dao.TopicDao;
+import model.test.Test;
 import model.test.Topic;
 import service.TopicService;
 
@@ -25,4 +26,5 @@ public class TopicServiceImpl implements TopicService {
     public Topic createNewTopic(Topic topic) {
         return topicDao.save(topic);
     }
+
 }

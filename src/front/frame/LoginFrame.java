@@ -56,6 +56,7 @@ public class LoginFrame extends JFrame {
             new StudentMainFrame(user).setVisible(true);
             return;
         }
+        //TODO admin
     }
 
     private void showWrongCredentialsDialog() {

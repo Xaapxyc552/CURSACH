@@ -9,5 +9,5 @@ import java.util.List;
 public interface StatisticService extends Service {
     List<Statistics> getStatisticsForUser(User user);
     List<Statistics> getStatisticsForTest(Test test);
-
+    Statistics saveNewStatistic(Statistics statistics);
 }

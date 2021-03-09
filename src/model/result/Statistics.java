@@ -5,7 +5,11 @@ import model.test.Test;
 import model.user.User;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
+
+import static util.time.DateTimeFormatterUtil.getDateFormatter;
 
 public class Statistics implements Model {
     private UUID id;
@@ -15,6 +19,17 @@ public class Statistics implements Model {
     private LocalDateTime dateOfFinish;
     private double totalPoints;
 
+    public String getTestResultString() {
+        return test.getName() + ". \n"
+                + "Кількість балів: " + totalPoints + "/" + test.getMaximumPoints() + "\n"
+                + "Час початку тесту: " + getDateOfStart().format(getDateFormatter()) + "\n"
+                + "Час Закінчення тесту: " + getDateOfFinish().format(getDateFormatter());
+    }
+
+    @Override
+    public String toString() {
+        return test.getTopic().getName() + ". " + test.getName() + ". " + user.getName() + " " + user.getSurname();
+    }
 
     public User getUser() {
         return user;

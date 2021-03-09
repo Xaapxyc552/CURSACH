@@ -1,5 +1,6 @@
 package dao;
 
+import model.result.Statistics;
 import model.test.Test;
 import model.test.Topic;
 
@@ -9,4 +10,5 @@ public interface TestDao extends Dao<Test>{
     public Test findTestByName(String name);
 
     Topic findTopicForTest(Test test);
+
 }

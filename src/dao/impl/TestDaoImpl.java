@@ -7,6 +7,7 @@ import dao.TopicDao;
 import dao.rowmapper.RowMapper;
 import dao.rowmapper.impl.TestRowMapper;
 import exceptions.ModelNotFoundException;
+import model.result.Statistics;
 import model.test.Test;
 import model.test.Topic;
 import model.user.User;
@@ -50,6 +51,8 @@ public class TestDaoImpl extends AbstractDao<Test> implements TestDao {
         }
         return topicDao.findById(UUID.fromString(topicId));
     }
+
+
 
     @Override
     protected RowMapper<Test> getRowMapper() {

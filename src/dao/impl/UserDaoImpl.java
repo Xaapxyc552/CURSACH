@@ -37,6 +37,12 @@ public class UserDaoImpl extends AbstractDao <User> implements UserDao {
     }
 
     @Override
+    public List<User> findAllStudents() {
+        Predicate<CSVRecord> predicate = n -> n.get("role").equals(Role.STUDENT.name());
+        return findMultipleModelsByPredicate(predicate);
+    }
+
+    @Override
     protected File getDataFile() {
         return dataFile;
     }

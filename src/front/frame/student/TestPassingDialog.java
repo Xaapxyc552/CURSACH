@@ -24,14 +24,17 @@ public class TestPassingDialog extends JDialog {
     private JLabel timeLeftForTest;
     private JList<Question> questionsList;
     private JList<Answer> answersList;
-    private static final String TIME_REMAIN_PATTERN = "Часу залишилось: %02d:%02d:%02d.";
-    private LocalDateTime finishTime;
-    private final Timer timer;
 
     private final QuestionService questionService = ServiceFactory.getInstance().getQuestionService();
     private final AnswerService answerService = ServiceFactory.getInstance().getAnswerService();
     private final AnswerCheckerService answerCheckerService = ServiceFactory.getInstance().getAnswerCheckerService();
     private final AnswerListFiller answerListFiller;
+
+    private static final String TIME_REMAIN_PATTERN = "Часу залишилось: %02d:%02d:%02d.";
+    private LocalDateTime finishTime;
+    private LocalDateTime startTime;
+    private final Timer timer;
+
 
     private final Test testToPass;
     private final TestResult testResult;
@@ -42,7 +45,7 @@ public class TestPassingDialog extends JDialog {
         this.loggedInUser = loggedInUser;
         this.testToPass = testToPass;
         answerListFiller = new AnswerListFiller();
-        testResult = new TestResult(testToPass);
+        testResult = new TestResult(testToPass,LocalDateTime.now());
         setContentPane(contentPane);
         setModal(true);
         setSize(600, 400);
@@ -71,15 +74,16 @@ public class TestPassingDialog extends JDialog {
     }
 
     private void finishTestButton() {
-        answerCheckerService.getStatFromTestResult(testResult,loggedInUser);
+        testResult.setFinishTime(LocalDateTime.now());
+        answerCheckerService.getStatFromTestResult(testResult, loggedInUser);
         dispose();
     }
 
     private void choseAnswerButton() {
         Question question = questionsList.getSelectedValue();
         Answer answer = answersList.getSelectedValue();
-        testResult.addQuestionAnswer(question,answer);
-        if(answerListFiller.isHasNextQuestion()) {
+        testResult.addQuestionAnswer(question, answer);
+        if (answerListFiller.isHasNextQuestion()) {
             answerListFiller.fillNextAnswerList();
         } else {
             finishTestButton();
@@ -103,7 +107,8 @@ public class TestPassingDialog extends JDialog {
 
 
     private Timer createAndStartTimer() {
-        finishTime = LocalDateTime.now().plus(testToPass.getTimeForTest());
+        startTime = LocalDateTime.now();
+        finishTime = startTime.plus(testToPass.getTimeForTest());
         timeLeftForTest.setText(getRemainTimeString());
         final Timer timer = new Timer(1000,
                 e -> {
