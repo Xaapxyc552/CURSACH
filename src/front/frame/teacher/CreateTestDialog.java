@@ -32,11 +32,7 @@ public class CreateTestDialog extends JDialog {
     private TopicService topicService = ServiceFactory.getInstance().getTopicService();
 
     public CreateTestDialog() {
-        setSize(500, 400);
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(saveTestButton);
-        setResizable(false);
+        createLayout();
 
         fillTopicBox();
 
@@ -44,14 +40,22 @@ public class CreateTestDialog extends JDialog {
         buttonCancel.addActionListener(e -> dispose());
         createTopicButton.addActionListener(e -> createTopicDialog());
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
+        setCloseOperations();
+    }
 
-        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    private void createLayout() {
+        setSize(500, 400);
+        setContentPane(contentPane);
+        setModal(true);
+        getRootPane().setDefaultButton(saveTestButton);
+        setResizable(false);
+    }
+
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void createTopicDialog() {
@@ -67,14 +71,7 @@ public class CreateTestDialog extends JDialog {
     private void saveNewTest() {
         Test test = new Test();
         test.setId(UUID.randomUUID());
-        String text = testTimeField.getText();
-        try {
-            Duration duration = getAndParseDuration(text);
-            test.setTimeForTest(duration);
-        } catch (Exception e) {
-        }
-        test.setTopic((Topic) topicBox.getSelectedItem());
-        test.setName(testNameField.getText());
+        bindTestFromFields(test);
         Validator<Test> validator = new TestValidator();
         Set<ConstraintViolation> validate = validator.validate(test);
         if (!validate.isEmpty()) {
@@ -84,6 +81,18 @@ public class CreateTestDialog extends JDialog {
         testService.createTest(test);
         new ChangeTestDialog(test).setVisible(true);
         dispose();
+    }
+
+    private void bindTestFromFields(Test test) {
+        String text = testTimeField.getText();
+        try {
+            Duration duration = getAndParseDuration(text);
+            test.setTimeForTest(duration);
+        } catch (Exception e) {
+            //in case of unsuccessful parsing validator will show a warning
+        }
+        test.setTopic((Topic) topicBox.getSelectedItem());
+        test.setName(testNameField.getText());
     }
 
     private Duration getAndParseDuration(String text) {

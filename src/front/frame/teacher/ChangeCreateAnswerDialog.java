@@ -35,25 +35,28 @@ public class ChangeCreateAnswerDialog extends JDialog {
     }
 
     public ChangeCreateAnswerDialog(Question question) {
-        setSize(300, 250);
         attachedQuestion = question;
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-        setResizable(false);
-
+        createLayout();
 
         buttonOK.addActionListener(e -> saveAnswer());
         buttonCancel.addActionListener(e -> dispose());
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
+        setCloseOperations();
+    }
 
-        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void createLayout() {
+        setSize(300, 250);
+        setContentPane(contentPane);
+        setModal(true);
+        getRootPane().setDefaultButton(buttonOK);
+        setResizable(false);
     }
 
     private void saveAnswer() {
@@ -67,9 +70,7 @@ public class ChangeCreateAnswerDialog extends JDialog {
     private void saveNewAnswer() {
         Answer answer = new Answer();
         answer.setId(UUID.randomUUID());
-        answer.setAnswerText(answerText.getText());
-        answer.setCorrect(isCorrect.isSelected());
-        answer.setQuestion(attachedQuestion);
+        bindAnswerFromFields(answer);
         Validator<Answer> validator = new AnswerValidator();
         Set<ConstraintViolation> validate = validator.validate(answer);
         if (!validate.isEmpty()) {
@@ -80,12 +81,16 @@ public class ChangeCreateAnswerDialog extends JDialog {
         dispose();
     }
 
+    private void bindAnswerFromFields(Answer answer) {
+        answer.setAnswerText(answerText.getText());
+        answer.setCorrect(isCorrect.isSelected());
+        answer.setQuestion(attachedQuestion);
+    }
+
     private void saveEditedAnswer() {
         setSize(300, 200);
         Answer answerToSave = new Answer();
-        answerToSave.setAnswerText(answerText.getText());
-        answerToSave.setCorrect(isCorrect.isSelected());
-        answerToSave.setQuestion(attachedQuestion);
+        bindAnswerFromFields(answerToSave);
         Validator<Answer> validator = new AnswerValidator();
         Set<ConstraintViolation> validate = validator.validate(answerToSave);
         if (!validate.isEmpty()) {

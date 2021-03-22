@@ -1,5 +1,6 @@
 package model.test;
 
+import front.util.DurationUtils;
 import model.Model;
 
 import java.time.Duration;
@@ -65,17 +66,9 @@ public class Test implements Model {
 
     @Override
     public String toString() {
-        return topic + ". " + name + ". Час на тест: " + formatDuration(timeForTest);
+        return topic + ". " + name + ". Час на тест: " +
+                DurationUtils.formatDuration(timeForTest);
     }
 
-    private static String formatDuration(Duration duration) {
-        long seconds = duration.getSeconds();
-        long absSeconds = Math.abs(seconds);
-        String positive = String.format(
-                "%d:%02d:%02d",
-                absSeconds / 3600,
-                (absSeconds % 3600) / 60,
-                absSeconds % 60);
-        return seconds < 0 ? "-" + positive : positive;
-    }
+
 }

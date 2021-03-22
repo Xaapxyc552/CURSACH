@@ -21,35 +21,32 @@ public class CreateTopicDialog extends JDialog {
     private TopicService topicService = ServiceFactory.getInstance().getTopicService();
 
     public CreateTopicDialog() {
+        setLayout();
+
+        buttonOK.addActionListener(e -> saveTopic());
+        buttonCancel.addActionListener(e -> onCancel());
+
+        setCloseOperations();
+    }
+
+    private void setLayout() {
         setSize(300,200);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setResizable(false);
+    }
 
-        buttonOK.addActionListener(e -> saveTopic());
-
-        buttonCancel.addActionListener(e -> onCancel());
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void saveTopic() {
         Topic topic = new Topic();
-        topic.setName(topicNameField.getText());
+        bindTopicFromFields(topic);
         Validator<Topic> validator = new TopicValidator();
         Set<ConstraintViolation> validate = validator.validate(topic);
         if (!validate.isEmpty()) {
@@ -61,8 +58,11 @@ public class CreateTopicDialog extends JDialog {
         dispose();
     }
 
+    private void bindTopicFromFields(Topic topic) {
+        topic.setName(topicNameField.getText());
+    }
+
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

@@ -11,7 +11,7 @@ public class StudentMainFrame extends JFrame {
     private JButton testListButton;
     private JButton studentStatisticsButton;
 
-    private User loggedInUser;
+    private final User loggedInUser;
 
     public StudentMainFrame(User user) {
         loggedInUser = user;
@@ -19,7 +19,6 @@ public class StudentMainFrame extends JFrame {
 
         testListButton.addActionListener(e -> openTestChoseDialog());
         studentStatisticsButton.addActionListener(e -> openStudentStatisticsFrame());
-
 
         setSize(400, 400);
         addWindowListener(new WindowAdapter() {
@@ -33,7 +32,6 @@ public class StudentMainFrame extends JFrame {
     private void createLayout() {
         setContentPane(contentPane);
         setResizable(false);
-
     }
 
     private void openStudentStatisticsFrame() {
@@ -42,7 +40,6 @@ public class StudentMainFrame extends JFrame {
 
     private void openTestChoseDialog() {
         new ChoseTestDialog(loggedInUser).setVisible(true);
-
     }
 
 }

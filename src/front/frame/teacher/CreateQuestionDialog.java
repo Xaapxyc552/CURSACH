@@ -26,36 +26,32 @@ public class CreateQuestionDialog extends JDialog {
 
     public CreateQuestionDialog(Test test) {
         attachedTest = test;
+        createLayout();
+
+        buttonSave.addActionListener(e -> saveNewQuestion());
+        buttonCancel.addActionListener(e -> onCancel());
+
+        setCloseOperations();
+    }
+
+    private void createLayout() {
         setSize(600, 400);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonSave);
         setResizable(false);
+    }
 
-
-        buttonSave.addActionListener(e -> saveNewQuestion());
-
-        buttonCancel.addActionListener(e -> onCancel());
-
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void saveNewQuestion() {
         Question question = new Question();
-        question.setQuestionText(questionTextField.getText());
-        question.setName(questionNameField.getText());
-        try {
-            question.setAmountOfPoints(Double.parseDouble(amountOfPointsField.getText()));
-        } catch (NumberFormatException e) {
-            question.setAmountOfPoints(0);
-        }
+        bindQuestionFromFields(question);
         Validator<Question> validator = new QuestionValidator();
         Set<ConstraintViolation> validate = validator.validate(question);
         if (!validate.isEmpty()) {
@@ -67,6 +63,16 @@ public class CreateQuestionDialog extends JDialog {
         questionService.createNewQuestion(question);
         new ModifyQuestionDialog(question).setVisible(true);
         dispose();
+    }
+
+    private void bindQuestionFromFields(Question question) {
+        question.setQuestionText(questionTextField.getText());
+        question.setName(questionNameField.getText());
+        try {
+            question.setAmountOfPoints(Double.parseDouble(amountOfPointsField.getText()));
+        } catch (NumberFormatException e) {
+            question.setAmountOfPoints(0);
+        }
     }
 
     private void onCancel() {

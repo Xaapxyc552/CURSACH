@@ -17,8 +17,8 @@ public class ChoseTestDialog extends JDialog {
     private JButton buttonCancel;
     private JList<Test> testList;
 
-    private TestService testService = ServiceFactory.getInstance().getTestService();
-    private User loggedInUser;
+    private final TestService testService = ServiceFactory.getInstance().getTestService();
+    private final User loggedInUser;
 
     public ChoseTestDialog(User loggedInUser) {
         this.loggedInUser = loggedInUser;
@@ -27,14 +27,14 @@ public class ChoseTestDialog extends JDialog {
         startTestButton.addActionListener(e -> startTest());
         buttonCancel.addActionListener(e -> onCancel());
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
+        setCloseOperations();
+    }
 
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void createLayout() {

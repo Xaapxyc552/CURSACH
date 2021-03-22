@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Vector;
 
@@ -32,37 +33,42 @@ public class BrowseStatisticsTeacherDialog extends JDialog {
     private final StatisticService statisticService = ServiceFactory.getInstance().getStatisticService();
 
     public BrowseStatisticsTeacherDialog() {
+        createLayout();
+
+        buttonOK.addActionListener(e -> dispose());
+        updateButton.addActionListener(e -> updateSearchResultList());
+
+        fillSearchByBox();
+        attachListSelectionListeners();
+        setListSelectionModel();
+        fillSearchResultListWithTests();
+
+        setCloseOperations();
+    }
+
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void attachListSelectionListeners() {
+        searchResultList.addListSelectionListener(new SearchResultSelectionListener());
+        statisticsList.addListSelectionListener(new StatisticsSelectionListener());
+    }
+
+    private void fillSearchByBox() {
+        EnumSet.allOf(SearchModel.class).forEach(searchModel::addItem);
+        searchModel.setSelectedItem(0);
+    }
+
+    private void createLayout() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setSize(800,400);
         setResizable(false);
-
-
-        buttonOK.addActionListener(e -> dispose());
-        updateButton.addActionListener(e -> updateSearchResultList());
-
-        searchModel.addItem(SearchModel.TEST);
-        searchModel.addItem(SearchModel.STUDENT);
-        searchModel.setSelectedItem(SearchModel.TEST);
-
-        searchResultList.addListSelectionListener(new SearchResultSelectionListener());
-        statisticsList.addListSelectionListener(new StatisticsSelectionListener());
-
-        setListSelectionModel();
-        fillSearchResultListWithTests();
-
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void fillSearchResultListWithTests() {

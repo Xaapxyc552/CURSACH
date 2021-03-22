@@ -23,20 +23,18 @@ public class TestOperationDialog extends JDialog {
         modifyTestButton.addActionListener(e -> createTestChangeDialog());
         newTestButton.addActionListener(e -> createTestFrame());
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
+        setCloseOperations();
+    }
 
-        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,
+                        0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void createTestFrame() {
         new CreateTestDialog().setVisible(true);
-
         fillListWithTests();
     }
 

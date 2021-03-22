@@ -33,32 +33,35 @@ public class ModifyQuestionDialog extends JDialog {
     public ModifyQuestionDialog(Question question) {
         setSize(600, 400);
         attachedQuestion = question;
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(changeAnswerButton);
+        createLayout();
         setListSelectionModel();
-        fillFieldsWthData();
-        setResizable(false);
+        fillFieldsWithData();
 
+        setButtonsActions();
 
+        setCloseOperations();
+    }
+
+    private void setButtonsActions() {
         changeAnswerButton.addActionListener(e -> changeAnswerDialog());
         createAnswerButton.addActionListener(e -> createAnswerDialog());
         saveButton.addActionListener(e -> saveModifiedQuestion());
         cancelButton.addActionListener(e -> dispose());
         deleteAnswerButton.addActionListener(e -> deleteAnswer());
+    }
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
+    private void createLayout() {
+        setContentPane(contentPane);
+        setModal(true);
+        getRootPane().setDefaultButton(changeAnswerButton);
+        setResizable(false);
+    }
 
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void deleteAnswer() {
@@ -70,12 +73,11 @@ public class ModifyQuestionDialog extends JDialog {
         fillListWithAnswers();
     }
 
-    private void fillFieldsWthData() {
+    private void fillFieldsWithData() {
         questionTextArea.setText(attachedQuestion.getQuestionText());
         questionNameField.setText(attachedQuestion.getName());
         amountOfPointsField.setText(String.valueOf(attachedQuestion.getAmountOfPoints()));
         fillListWithAnswers();
-
     }
 
     private void changeAnswerDialog() {
@@ -97,14 +99,10 @@ public class ModifyQuestionDialog extends JDialog {
         try {
             question.setAmountOfPoints(Double.parseDouble(amountOfPointsField.getText()));
         } catch (NumberFormatException e) {
-            e.printStackTrace();
-            //TODO приписать отображение
-            return;
+            question.setAmountOfPoints(0);
+            //in process of validation warning message will be displayed
         }
-        question.setQuestionText(questionTextArea.getText());
-        question.setName(questionNameField.getText());
-        question.setTest(attachedQuestion.getTest());
-        question.setAnswerList(attachedQuestion.getAnswerList());
+        bindQuestionFromFields(question);
         Validator<Question> validator = new QuestionValidator();
         Set<ConstraintViolation> validate = validator.validate(question);
         if (!validate.isEmpty()) {
@@ -114,6 +112,13 @@ public class ModifyQuestionDialog extends JDialog {
         question.setId(attachedQuestion.getId());
         questionService.updateQuestionData(question);
         dispose();
+    }
+
+    private void bindQuestionFromFields(Question question) {
+        question.setQuestionText(questionTextArea.getText());
+        question.setName(questionNameField.getText());
+        question.setTest(attachedQuestion.getTest());
+        question.setAnswerList(attachedQuestion.getAnswerList());
     }
 
     private void setListSelectionModel() {

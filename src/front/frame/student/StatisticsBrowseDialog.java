@@ -24,31 +24,31 @@ public class StatisticsBrowseDialog extends JDialog {
 
     public StatisticsBrowseDialog(User loggedInUser) {
         this.loggedInUser = loggedInUser;
+        createLayout();
+
+        buttonOK.addActionListener(e -> onOK());
+
+        setListSelectionModel();
+        testResultsList.addListSelectionListener(new ListSelectionListenerImpl());
+        fillListWithStatistics();
+
+
+        setCloseOperations();
+    }
+
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void createLayout() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setSize(800, 400);
         setResizable(false);
-        testResultsList.setPreferredSize(null);
-
-
-        buttonOK.addActionListener(e -> onOK());
-
-        setListSelectionModel();
-        testResultsList.addListSelectionListener(new listSelectionListener());
-        fillListWithStatistics();
-
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void fillListWithStatistics() {
@@ -64,11 +64,10 @@ public class StatisticsBrowseDialog extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
         dispose();
     }
 
-    class listSelectionListener implements ListSelectionListener {
+    class ListSelectionListenerImpl implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent e) {
             Statistics selectedValue = testResultsList.getSelectedValue();
             testResultArea.setText(selectedValue.getTestResultString());

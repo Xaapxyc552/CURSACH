@@ -28,42 +28,43 @@ public class TestPassingDialog extends JDialog {
     private final QuestionService questionService = ServiceFactory.getInstance().getQuestionService();
     private final AnswerService answerService = ServiceFactory.getInstance().getAnswerService();
     private final AnswerCheckerService answerCheckerService = ServiceFactory.getInstance().getAnswerCheckerService();
-    private final AnswerListFiller answerListFiller;
+    private AnswerListFiller answerListFiller;
 
     private static final String TIME_REMAIN_PATTERN = "Часу залишилось: %02d:%02d:%02d.";
     private LocalDateTime finishTime;
     private LocalDateTime startTime;
-    private final Timer timer;
 
 
     private final Test testToPass;
-    private final TestResult testResult;
+    private TestResult testResult;
     private User loggedInUser;
 
 
     public TestPassingDialog(Test testToPass, User loggedInUser) {
         this.loggedInUser = loggedInUser;
         this.testToPass = testToPass;
-        answerListFiller = new AnswerListFiller();
-        testResult = new TestResult(testToPass,LocalDateTime.now());
         setLayout();
-
+        initializeAnswerListFiller(testToPass);
 
         initializeButtons();
         setListSelectionModel();
         fillQuestionsList(testToPass);
         answerListFiller.fillNextAnswerList();
-        timer = createAndStartTimer();
+        Timer timer = createAndStartTimer();
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
+        setCloseOperations();
+    }
 
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         contentPane.registerKeyboardAction(e -> dispose(),
-                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void initializeAnswerListFiller(Test testToPass) {
+        answerListFiller = new AnswerListFiller();
+        testResult = new TestResult(testToPass,LocalDateTime.now());
     }
 
     private void setLayout() {
@@ -88,7 +89,7 @@ public class TestPassingDialog extends JDialog {
         Question question = questionsList.getSelectedValue();
         Answer answer = answersList.getSelectedValue();
         testResult.addQuestionAnswer(question, answer);
-        if (answerListFiller.isHasNextQuestion()) {
+        if (answerListFiller.hasNextQuestion()) {
             answerListFiller.fillNextAnswerList();
         } else {
             finishTestButton();
@@ -145,7 +146,7 @@ public class TestPassingDialog extends JDialog {
             questionsList.setSelectedIndex(currentSelected++);
         }
 
-        public boolean isHasNextQuestion() {
+        public boolean hasNextQuestion() {
             return iterator.hasNext();
         }
     }

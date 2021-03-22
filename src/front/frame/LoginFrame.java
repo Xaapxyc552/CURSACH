@@ -1,6 +1,7 @@
 package front.frame;
 
 import exceptions.ModelNotFoundException;
+import front.frame.admin.AdminMainFrame;
 import front.frame.student.StudentMainFrame;
 import front.frame.teacher.TeacherMainFrame;
 import model.user.Role;
@@ -19,24 +20,18 @@ public class LoginFrame extends JFrame {
     private final LoginService loginService = ServiceFactory.getInstance().getLoginService();
 
     public LoginFrame() {
+        createLayout();
+
+        loginButton.addActionListener(e -> authorizeUser());
+
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    private void createLayout() {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(loginButton);
         setSize(300, 200);
         setResizable(false);
-
-
-        loginButton.addActionListener(e -> {
-            authorizeUser();
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
     }
 
     private void authorizeUser() {
@@ -59,19 +54,17 @@ public class LoginFrame extends JFrame {
             new StudentMainFrame(user).setVisible(true);
             return;
         }
-        //TODO admin
+        if (user.getRole().equals(Role.ADMIN)) {
+            dispose();
+            new AdminMainFrame().setVisible(true);
+        }
     }
 
     private void showWrongCredentialsDialog() {
         JOptionPane.showMessageDialog(null,
-                "Вы ввели неправильный логин или пароль!",
-                "Неправильные данные входа",
+                "Ви ввели невірний логін або пароль!",
+                "Невірні данні входу",
                 JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
     }
 
 

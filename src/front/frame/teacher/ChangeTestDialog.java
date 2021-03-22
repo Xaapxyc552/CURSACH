@@ -25,10 +25,6 @@ public class ChangeTestDialog extends JDialog {
 
     public ChangeTestDialog(Test test) {
         attachedTest = test;
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(deleteQuestionButton);
-
         createLayout();
 
         deleteQuestionButton.addActionListener(e -> deleteSelectedQuestion());
@@ -37,25 +33,20 @@ public class ChangeTestDialog extends JDialog {
 
         fillListWithQuestions();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                closeDialog();
-            }
-        });
+        setCloseOperations();
+    }
 
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                closeDialog();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> closeDialog(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void createQuestionDialog() {
         new CreateQuestionDialog(attachedTest).setVisible(true);
         fillListWithQuestions();
         testService.recalculateAndUpdateTest(attachedTest);
-
     }
 
     private void deleteSelectedQuestion() {
@@ -79,7 +70,6 @@ public class ChangeTestDialog extends JDialog {
     }
 
     private void closeDialog() {
-
         dispose();
     }
 
@@ -92,11 +82,14 @@ public class ChangeTestDialog extends JDialog {
         listPanel.add(questionList);
         setResizable(false);
 
-
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         getContentPane().add(listPanel, BorderLayout.NORTH);
         setListSelectionModel();
+
+        setContentPane(contentPane);
+        setModal(true);
+        getRootPane().setDefaultButton(deleteQuestionButton);
     }
 
     private void setListSelectionModel() {

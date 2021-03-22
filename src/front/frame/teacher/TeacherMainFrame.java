@@ -15,19 +15,19 @@ public class TeacherMainFrame extends JDialog {
         testOperationButton.addActionListener(e -> openTestOperationDialog());
         studentStatisticsButton.addActionListener(e -> openStudentStatisticsFrame());
 
-
-        setSize(400, 400);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
-
+        setCloseOperations();
     }
 
+    private void setCloseOperations() {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        contentPane.registerKeyboardAction(e -> dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
     private void createLayout() {
         setContentPane(contentPane);
         setResizable(false);
+        setSize(400, 400);
     }
 
     private void openStudentStatisticsFrame() {
