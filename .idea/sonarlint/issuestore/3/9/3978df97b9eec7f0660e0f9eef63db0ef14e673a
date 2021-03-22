@@ -1,0 +1,22 @@
+
+Q
+java:S3740D"/Provide the parametrized type for this generic.(¶€¨ÿÿÿÿÿ8ËÜ¦·/
+L
+java:S3740\"/Provide the parametrized type for this generic.(‡–ö“8¸È•·/
+Q	java:S110"<This class has 6 parents which is greater than 5 authorized.(°¦¿¶
+Q
+java:S3740I"/Provide the parametrized type for this generic.(€íßÿÿÿÿÿ8ËÜ¦·/
+U
+java:S11619":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ
+Q
+java:S3740V"/Provide the parametrized type for this generic.(úùÇãşÿÿÿÿ8ñ·–·/
+O
+java:S1948"-Make "testService" transient or serializable.(³ø”ùÿÿÿÿ8¶š•·/
+O
+java:S1948"-Make "userService" transient or serializable.(µÒ‡Êùÿÿÿÿ8¶š•·/
+T
+java:S1948 "2Make "statisticService" transient or serializable.(‡¦÷êıÿÿÿÿ8ûÈ¾·/
+P
+java:S1068".Remove this unused "resultList" private field.(áÈÒÚúÿÿÿÿ8µì¥¸/
+_
+java:S1144G"BRemove this unused private "fillSearchResultListWithUsers" method.(œäìÒ8¶š•·/

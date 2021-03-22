@@ -1,0 +1,8 @@
+
+Q	java:S110"<This class has 6 parents which is greater than 5 authorized.(±ßô¬
+K
+java:S1948".Make "loggedInUser" transient or serializable.(è–í¼8åëÄ“/
+J
+java:S1948"-Make "testService" transient or serializable.(ëÊ„©8â‹/
+\
+java:S1161&":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ8¢«è‹/

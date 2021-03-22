@@ -1,0 +1,6 @@
+
+Q	java:S110"<This class has 6 parents which is greater than 5 authorized.(éµ’
+C
+java:S1948"-Make "testService" transient or serializable.(ëÊ„©
+U
+java:S1161":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ

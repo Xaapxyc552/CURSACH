@@ -1,0 +1,14 @@
+
+V	java:S110"<This class has 6 parents which is greater than 5 authorized.(ªøú¤şÿÿÿÿ
+U
+java:S1161/":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ
+N
+java:S1948"1Make "questionService" transient or serializable.(çóßå8Ô×Æá€/
+N
+java:S1948"2Make "attachedQuestion" transient or serializable.(‰¯éb8Š§²ß€/
+Q
+java:S1948"/Make "answerService" transient or serializable.(–†Ÿôÿÿÿÿÿ8¡µ­ß€/
+O
+java:S1135`"2Complete the task associated to this TODO comment.(ÖÏ‚ú8Ô×Æá€/
+C
+java:S16044"(Make this anonymous inner class a lambda(ıĞ‰ÿÿÿÿÿ

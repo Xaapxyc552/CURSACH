@@ -1,0 +1,9 @@
+
+]	java:S110
+"<This class has 6 parents which is greater than 5 authorized.(´Û´Âÿÿÿÿÿ8£–®‹/
+K
+java:S1948".Make "loggedInUser" transient or serializable.(è–í¼8Ã“/
+f
+java:S1128"DRemove this unused import 'front.frame.teacher.TestOperationsFrame'.(¿Ó‰¯øÿÿÿÿ8“Üº/
+\
+java:S1161":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ8”â¯‹/

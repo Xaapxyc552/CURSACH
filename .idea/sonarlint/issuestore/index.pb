@@ -93,8 +93,6 @@ H
 +src/dao/rowmapper/impl/AnswerRowMapper.java,8\a\8a87cbff3c4a3ead446137abea566dd4857ede0c
 ]
 -src/dao/rowmapper/impl/QuestionRowMapper.java,4\3\43d467fcf4f542dac17bac3565df5d05765b7f13
-[
-+src/front/frame/registry/FrameRegistry.java,d\b\dba1d4c49e434cf11c47df67c7def902b39c0810
 O
 src/front/frame/LoginFrame.form,5\3\53890c9fc413349191b2de0a5dcebd0dab1116a8
 S
@@ -137,8 +135,6 @@ Z
 *src/dao/rowmapper/impl/TopicRowMapper.java,9\2\9216435508166cbf7af1ba785df44e33b1bf3199
 f
 6src/exceptions/UniqueConstraintViolationException.java,e\0\e02fb1250f3a99b64dff8f71a2eaa10395d941b4
-J
-src/ApplicationRunner.java,9\e\9ea636457cbdce305a03c0cdb5bce0e6c64087b6
 I
 src/model/test/Topic.java,6\1\6155d17735ff13fb48b640fa376ed4ffb7f43104
 M
@@ -185,3 +181,23 @@ a
 -src/front/frame/student/StudentMainFrame.java,b\b\bbe6f16d3c2946f43f8c5685c54aaab27855a31b
 ^
 .src/front/frame/student/TestPassingDialog.java,e\e\ee7e250ca82017e3f0235b920d6ae8313a137e28
+a
+1src/front/frame/teacher/CreateQuestionDialog.form,a\2\a21de7fc9fdd3c93f30ba9df0fb27494a3b65c24
+^
+.src/front/frame/teacher/CreateTopicDialog.form,1\5\15a130f970c0eafaab4379d05793b281b84b5966
+@
+src/KURSACH.java,1\2\120ce00441c4adfeac7517210d42f8e737ca1027
+O
+.idea/artifacts/KURSACH_jar.xml,a\5\a51287ab9fb970c6db7c3962270426b037df48c5
+`
+0src/front/frame/teacher/TestOperationsFrame.java,3\5\35dd80d28ca80eb7d1082f25f200aecfeab25100
+j
+:src/front/frame/teacher/BrowseStatisticsTeacherDialog.form,4\1\41f12a1a3fa8db08a5678af679423f28b7d6e764
+X
+(src/util/time/DateTimeFormatterUtil.java,1\e\1e682ec170d2cc39fe003fe834fcadf6fa39b02e
+c
+3src/front/frame/student/StatisticsBrowseDialog.form,7\a\7aeab244046f4e505dd2c062f40a9a4697d83524
+j
+:src/front/frame/teacher/BrowseStatisticsTeacherDialog.java,3\9\3978df97b9eec7f0660e0f9eef63db0ef14e673a
+c
+3src/front/frame/student/StatisticsBrowseDialog.java,f\f\ff9189d421998c4fbfbf8f11bc27f2f22cafdf3c

@@ -1,0 +1,12 @@
+
+U
+java:S1161*":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ
+J
+java:S1604/"(Make this anonymous inner class a lambda(ıĞ‰ÿÿÿÿÿ8›˜–½€/
+Q	java:S110"<This class has 6 parents which is greater than 5 authorized.(´ÀÌ¹
+N
+java:S1948"1Make "questionService" transient or serializable.(çóßå8¯¼€/
+J
+java:S1948"-Make "testService" transient or serializable.(ëÊ„©8‚Æıâ€/
+P
+java:S1948".Make "attachedTest" transient or serializable.(Î¸Èåùÿÿÿÿ8›˜–½€/
