@@ -2,23 +2,23 @@
 Q
 java:S1948"/Make "answerService" transient or serializable.(ó¨©ûıÿÿÿÿ8èÀî‘/
 V	java:S110"<This class has 6 parents which is greater than 5 authorized.(Öüÿıÿÿÿÿ
-O
-java:S1948"2Make "answerListFiller" transient or serializable.(ñ‘’8ãÇß‘/
-z
-java:S1450#"XRemove the "startTime" field and declare it as a local variable in the relevant methods.(öÆÖ¤ûÿÿÿÿ8š¨Á°/
-[
-java:S1117q"9Rename "timer" which hides the field declared at line 36.( Ÿõøÿÿÿÿ8•á¬“/
-S
-java:S1948"1Make "questionService" transient or serializable.(‚¯ûøşÿÿÿÿ8…¦Ë‘/
-K
-java:S1948)".Make "loggedInUser" transient or serializable.(è–í¼8ÅšÆ“/
-X
-java:S1948"6Make "answerCheckerService" transient or serializable.(Ò™äŠÿÿÿÿÿ8à¶Ô®/
-I
-java:S1948(",Make "testResult" transient or serializable.(€ó8•á¬“/
-\
-java:S1161>":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ8•á¬“/
-N
-java:S1948'",Make "testToPass" transient or serializable.(ñ–‘»ùÿÿÿÿ8´‘Ê‘/
 F
 java:S1068$")Remove this unused "timer" private field.(¿è¨8¿‚Æ‘/
+X
+java:S1948"6Make "answerCheckerService" transient or serializable.(Ò™äŠÿÿÿÿÿ8à¶Ô®/
+z
+java:S1450#"XRemove the "startTime" field and declare it as a local variable in the relevant methods.(öÆÖ¤ûÿÿÿÿ8š¨Á°/
+K
+java:S1948)".Make "loggedInUser" transient or serializable.(è–í¼8ÅšÆ“/
+O
+java:S1948"2Make "answerListFiller" transient or serializable.(ñ‘’8ãÇß‘/
+\
+java:S1161<":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ8•á¬“/
+[
+java:S1117v"9Rename "timer" which hides the field declared at line 36.( Ÿõøÿÿÿÿ8•á¬“/
+S
+java:S1948"1Make "questionService" transient or serializable.(‚¯ûøşÿÿÿÿ8…¦Ë‘/
+I
+java:S1948(",Make "testResult" transient or serializable.(€ó8•á¬“/
+N
+java:S1948'",Make "testToPass" transient or serializable.(ñ–‘»ùÿÿÿÿ8´‘Ê‘/

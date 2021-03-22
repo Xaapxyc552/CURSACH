@@ -1,5 +1,7 @@
 package front.frame.teacher;
 
+import front.validation.ConstraintViolation;
+import front.validation.ValidationViolationDialog;
 import front.validation.impl.QuestionValidator;
 import front.validation.Validator;
 import model.test.Answer;
@@ -10,6 +12,7 @@ import service.ServiceFactory;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Set;
 import java.util.Vector;
 
 public class ModifyQuestionDialog extends JDialog {
@@ -103,7 +106,9 @@ public class ModifyQuestionDialog extends JDialog {
         question.setTest(attachedQuestion.getTest());
         question.setAnswerList(attachedQuestion.getAnswerList());
         Validator<Question> validator = new QuestionValidator();
-        if (!validator.validate(question)) {
+        Set<ConstraintViolation> validate = validator.validate(question);
+        if (!validate.isEmpty()) {
+            new ValidationViolationDialog(validate).setVisible(true);
             return;
         }
         question.setId(attachedQuestion.getId());

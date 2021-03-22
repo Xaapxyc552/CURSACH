@@ -36,6 +36,7 @@ public class TestOperationDialog extends JDialog {
 
     private void createTestFrame() {
         new CreateTestDialog().setVisible(true);
+
         fillListWithTests();
     }
 

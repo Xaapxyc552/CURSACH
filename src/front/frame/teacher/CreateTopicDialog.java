@@ -1,5 +1,7 @@
 package front.frame.teacher;
 
+import front.validation.ConstraintViolation;
+import front.validation.ValidationViolationDialog;
 import front.validation.impl.TopicValidator;
 import front.validation.Validator;
 import model.test.Topic;
@@ -8,6 +10,7 @@ import service.TopicService;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Set;
 import java.util.UUID;
 
 public class CreateTopicDialog extends JDialog {
@@ -48,8 +51,9 @@ public class CreateTopicDialog extends JDialog {
         Topic topic = new Topic();
         topic.setName(topicNameField.getText());
         Validator<Topic> validator = new TopicValidator();
-        if (!validator.validate(topic)){
-            //TODO отображние
+        Set<ConstraintViolation> validate = validator.validate(topic);
+        if (!validate.isEmpty()) {
+            new ValidationViolationDialog(validate).setVisible(true);
             return;
         }
         topic.setId(UUID.randomUUID());

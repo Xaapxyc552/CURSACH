@@ -2,6 +2,8 @@ package front.frame.teacher;
 
 import dao.AnswerDao;
 import dao.DaoFactory;
+import front.validation.ConstraintViolation;
+import front.validation.ValidationViolationDialog;
 import front.validation.impl.AnswerValidator;
 import front.validation.Validator;
 import model.test.Answer;
@@ -9,6 +11,7 @@ import model.test.Question;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Set;
 import java.util.UUID;
 
 public class ChangeCreateAnswerDialog extends JDialog {
@@ -68,8 +71,9 @@ public class ChangeCreateAnswerDialog extends JDialog {
         answer.setCorrect(isCorrect.isSelected());
         answer.setQuestion(attachedQuestion);
         Validator<Answer> validator = new AnswerValidator();
-        if (!validator.validate(answer)) {
-            //TODO сделать валидацию
+        Set<ConstraintViolation> validate = validator.validate(answer);
+        if (!validate.isEmpty()) {
+            new ValidationViolationDialog(validate).setVisible(true);
             return;
         }
         answerDao.save(answer);
@@ -83,8 +87,9 @@ public class ChangeCreateAnswerDialog extends JDialog {
         answerToSave.setCorrect(isCorrect.isSelected());
         answerToSave.setQuestion(attachedQuestion);
         Validator<Answer> validator = new AnswerValidator();
-        if (!validator.validate(answerToSave)) {
-            //TODO сделать валидацию
+        Set<ConstraintViolation> validate = validator.validate(answerToSave);
+        if (!validate.isEmpty()) {
+            new ValidationViolationDialog(validate).setVisible(true);
             return;
         }
         answerToSave.setId(attachedAnswer.getId());

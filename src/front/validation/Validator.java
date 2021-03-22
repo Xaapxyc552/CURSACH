@@ -2,6 +2,8 @@ package front.validation;
 
 import model.Model;
 
+import java.util.Set;
+
 public interface Validator<T extends Model> {
-    boolean validate(T model);
+    Set<ConstraintViolation> validate(T model);
 }

@@ -1,5 +1,7 @@
 package front.frame.teacher;
 
+import front.validation.ConstraintViolation;
+import front.validation.ValidationViolationDialog;
 import front.validation.impl.TestValidator;
 import front.validation.Validator;
 import model.test.Test;
@@ -13,13 +15,14 @@ import java.awt.event.*;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CreateTestDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton saveTestButton;
     private JButton buttonCancel;
     private JTextField testNameField;
     private JComboBox<Topic> topicBox;
@@ -32,12 +35,12 @@ public class CreateTestDialog extends JDialog {
         setSize(500, 400);
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(saveTestButton);
         setResizable(false);
 
         fillTopicBox();
 
-        buttonOK.addActionListener(e -> saveNewTest());
+        saveTestButton.addActionListener(e -> saveNewTest());
         buttonCancel.addActionListener(e -> dispose());
         createTopicButton.addActionListener(e -> createTopicDialog());
 
@@ -65,22 +68,21 @@ public class CreateTestDialog extends JDialog {
         Test test = new Test();
         test.setId(UUID.randomUUID());
         String text = testTimeField.getText();
-        if (text == null || text.isEmpty()) {
-            return;
-        }
         try {
             Duration duration = getAndParseDuration(text);
             test.setTimeForTest(duration);
         } catch (Exception e) {
-            return;
         }
         test.setTopic((Topic) topicBox.getSelectedItem());
         test.setName(testNameField.getText());
-        Validator<Test> validator= new TestValidator();
-        if (!validator.validate(test)) {
+        Validator<Test> validator = new TestValidator();
+        Set<ConstraintViolation> validate = validator.validate(test);
+        if (!validate.isEmpty()) {
+            new ValidationViolationDialog(validate).setVisible(true);
             return;
         }
         testService.createTest(test);
+        new ChangeTestDialog(test).setVisible(true);
         dispose();
     }
 
@@ -89,13 +91,7 @@ public class CreateTestDialog extends JDialog {
                 .flatMap(e -> Arrays.stream(e.split(":")))
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
-        Duration testDuration = Duration.ofHours(collect.get(0))
-                .plusMinutes(collect.get(1))
-                .plusSeconds(collect.get(2));
-        if (testDuration.toMinutes()<1) {
-            throw new IllegalArgumentException("Time for test cannot be less than 1 minute.");
-        }
-        return testDuration;
+        return Duration.ofHours(collect.get(0)).plusMinutes(collect.get(1)).plusSeconds(collect.get(2));
     }
 
 }

@@ -2,52 +2,34 @@ package front.validation;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Collection;
+import java.util.Vector;
 
 public class ValidationViolationDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JTextArea constraintsViolation;
-    private JButton buttonCancel;
+    private JList<ConstraintViolation> violationsList;
 
-    public ValidationViolationDialog() {
+    public ValidationViolationDialog(Collection<ConstraintViolation> violations) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        violationsList.setListData(new Vector<>(violations));
+
         buttonOK.addActionListener(e -> onOK());
 
-        buttonCancel.addActionListener(e -> onCancel());
-
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                dispose();
             }
         });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        pack();
     }
 
     private void onOK() {
-        // add your code here
         dispose();
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
-
-    public static void main(String[] args) {
-        ValidationViolationDialog dialog = new ValidationViolationDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

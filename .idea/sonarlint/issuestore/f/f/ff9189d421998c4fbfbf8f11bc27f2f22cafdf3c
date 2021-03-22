@@ -1,9 +1,9 @@
 
+K
+java:S1948".Make "loggedInUser" transient or serializable.(è–í¼8î¨â³/
 V	java:S110"<This class has 6 parents which is greater than 5 authorized.(µ¿ûüÿÿÿÿ
 T
 java:S1948"2Make "statisticService" transient or serializable.(‡¦÷êıÿÿÿÿ8¥Èä³/
-K
-java:S1948".Make "loggedInUser" transient or serializable.(è–í¼8î¨â³/
+n	java:S101G"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.( ê¡–şÿÿÿÿ8¬Ó±³/
 U
-java:S1161*":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ
-n	java:S101C"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.( ê¡–şÿÿÿÿ8¬Ó±³/
+java:S1161-":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ

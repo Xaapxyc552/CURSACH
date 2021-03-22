@@ -1,12 +1,12 @@
 
 B
-java:S1602",Remove useless curly braces around statement(Ù­ŠÈ
-O
-java:S1135;"2Complete the task associated to this TODO comment.(±ß¸è8Åù¯/
+java:S1602",Remove useless curly braces around statement(Ù­ŠÈ
 8
-java:S36269"Remove this redundant jump.(ûÁİ…8ïê«‹/
-Q	java:S110"<This class has 6 parents which is greater than 5 authorized.(„ ‡Ú
+java:S3626<"Remove this redundant jump.(ûÁİ…8ïê«‹/
+O
+java:S1135>"2Complete the task associated to this TODO comment.(±ß¸è8Åù¯/
 U
-java:S1161 ":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ
+java:S1161#":Add the "@Override" annotation above this method signature(†§şıÿÿÿÿ
+Q	java:S110"<This class has 6 parents which is greater than 5 authorized.(„ ‡Ú
 D
 java:S1948".Make "loginService" transient or serializable.(âòÒÕ
