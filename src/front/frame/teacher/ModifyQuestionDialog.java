@@ -1,6 +1,6 @@
 package front.frame.teacher;
 
-import front.validation.QuestionValidator;
+import front.validation.impl.QuestionValidator;
 import front.validation.Validator;
 import model.test.Answer;
 import model.test.Question;
@@ -35,6 +35,8 @@ public class ModifyQuestionDialog extends JDialog {
         getRootPane().setDefaultButton(changeAnswerButton);
         setListSelectionModel();
         fillFieldsWthData();
+        setResizable(false);
+
 
         changeAnswerButton.addActionListener(e -> changeAnswerDialog());
         createAnswerButton.addActionListener(e -> createAnswerDialog());

@@ -90,6 +90,8 @@ public class ChangeTestDialog extends JDialog {
         buttonPanel.add(modifyQuestionButton);
         buttonPanel.add(createQuestionButton);
         listPanel.add(questionList);
+        setResizable(false);
+
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);

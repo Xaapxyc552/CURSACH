@@ -1,5 +1,6 @@
-package front.validation;
+package front.validation.impl;
 
+import front.validation.Validator;
 import model.test.Test;
 
 public class TestValidator implements Validator<Test> {

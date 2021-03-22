@@ -5,61 +5,59 @@ import service.ServiceFactory;
 import service.TestService;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.Vector;
 
-public class TestOperationsFrame extends JFrame{
+public class TestOperationDialog extends JDialog {
+
     private JPanel contentPane;
-    private JList<Test> testsList = new JList<>();
     private JButton modifyTestButton;
-    private JPanel listPanel;
     private JButton newTestButton;
-    private JPanel buttonPanel;
+    private JList<Test> testList;
+
     private TestService testService = ServiceFactory.getInstance().getTestService();
 
-    public TestOperationsFrame() {
+    public TestOperationDialog() {
         createLayout();
 
         modifyTestButton.addActionListener(e -> createTestChangeDialog());
         newTestButton.addActionListener(e -> createTestFrame());
 
-        fillListWithTests();
-
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
             }
         });
+
+        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
     }
 
     private void createTestFrame() {
-        new CreateTestFrame().setVisible(true);
+        new CreateTestDialog().setVisible(true);
         fillListWithTests();
     }
 
     private void createLayout() {
-        setSize(400, 400);
         setContentPane(contentPane);
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(listPanel,BorderLayout.NORTH);
-        listPanel.add(testsList);
-        getContentPane().add(buttonPanel,BorderLayout.SOUTH);
-        buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.add(modifyTestButton);
-        buttonPanel.add(newTestButton);
+        getRootPane().setDefaultButton(newTestButton);
+        setModal(true);
+        setSize(600, 400);
+        setResizable(false);
+
         setListSelectionModel();
+        fillListWithTests();
     }
 
     private void setListSelectionModel() {
         ListSelectionModel selectionModel = new DefaultListSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        testsList.setSelectionModel(selectionModel);
+        testList.setSelectionModel(selectionModel);
     }
 
     private void createTestChangeDialog() {
-        Test selectedValue = testsList.getSelectedValue();
+        Test selectedValue = testList.getSelectedValue();
         if (selectedValue==null) {
             return;
         }
@@ -68,6 +66,11 @@ public class TestOperationsFrame extends JFrame{
 
     private void fillListWithTests() {
         Vector<Test> vector = new Vector<>(testService.getAllTests());
-        testsList.setListData(vector);
+        testList.setListData(vector);
     }
+
+
+
+
+
 }

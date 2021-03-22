@@ -12,7 +12,7 @@ public class TeacherMainFrame extends JDialog {
     public TeacherMainFrame() {
         createLayout();
 
-        testOperationButton.addActionListener(e -> openTestOperationsFrame());
+        testOperationButton.addActionListener(e -> openTestOperationDialog());
         studentStatisticsButton.addActionListener(e -> openStudentStatisticsFrame());
 
 
@@ -27,14 +27,15 @@ public class TeacherMainFrame extends JDialog {
 
     private void createLayout() {
         setContentPane(contentPane);
+        setResizable(false);
     }
 
     private void openStudentStatisticsFrame() {
         new BrowseStatisticsTeacherDialog().setVisible(true);
     }
 
-    private void openTestOperationsFrame() {
-        new TestOperationsFrame().setVisible(true);
+    private void openTestOperationDialog() {
+        new TestOperationDialog().setVisible(true);
 
     }
 

@@ -9,6 +9,7 @@ import model.test.Test;
 import service.TestService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestServiceImpl implements TestService {
 
@@ -20,6 +21,14 @@ public class TestServiceImpl implements TestService {
         List<Test> all = testDao.findAll();
         all.forEach(n -> n.setTopic(testDao.findTopicForTest(n)));
         return all;
+    }
+
+    @Override
+    public List<Test> getAllTestsForStudents() {
+        return testDao.findAll().stream()
+                .filter(n -> !questionDao.getAllQuestionsForTest(n).isEmpty())
+                .peek(n -> n.setTopic(testDao.findTopicForTest(n)))
+                .collect(Collectors.toList());
     }
 
     @Override

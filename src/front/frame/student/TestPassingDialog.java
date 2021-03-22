@@ -46,9 +46,7 @@ public class TestPassingDialog extends JDialog {
         this.testToPass = testToPass;
         answerListFiller = new AnswerListFiller();
         testResult = new TestResult(testToPass,LocalDateTime.now());
-        setContentPane(contentPane);
-        setModal(true);
-        setSize(600, 400);
+        setLayout();
 
 
         initializeButtons();
@@ -66,6 +64,13 @@ public class TestPassingDialog extends JDialog {
 
         contentPane.registerKeyboardAction(e -> dispose(),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void setLayout() {
+        setContentPane(contentPane);
+        setModal(true);
+        setSize(600, 400);
+        setResizable(false);
     }
 
     private void initializeButtons() {

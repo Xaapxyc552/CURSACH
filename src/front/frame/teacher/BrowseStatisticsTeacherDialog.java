@@ -36,6 +36,8 @@ public class BrowseStatisticsTeacherDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setSize(800,400);
+        setResizable(false);
+
 
         buttonOK.addActionListener(e -> dispose());
         updateButton.addActionListener(e -> updateSearchResultList());

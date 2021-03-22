@@ -1,6 +1,6 @@
 package front.frame.teacher;
 
-import front.validation.QuestionValidator;
+import front.validation.impl.QuestionValidator;
 import front.validation.Validator;
 import model.test.Question;
 import model.test.Test;
@@ -27,6 +27,8 @@ public class CreateQuestionDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonSave);
+        setResizable(false);
+
 
         buttonSave.addActionListener(e -> saveNewQuestion());
 

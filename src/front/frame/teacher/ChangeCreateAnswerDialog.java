@@ -2,7 +2,7 @@ package front.frame.teacher;
 
 import dao.AnswerDao;
 import dao.DaoFactory;
-import front.validation.AnswerValidator;
+import front.validation.impl.AnswerValidator;
 import front.validation.Validator;
 import model.test.Answer;
 import model.test.Question;
@@ -37,6 +37,8 @@ public class ChangeCreateAnswerDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setResizable(false);
+
 
         buttonOK.addActionListener(e -> saveAnswer());
         buttonCancel.addActionListener(e -> dispose());

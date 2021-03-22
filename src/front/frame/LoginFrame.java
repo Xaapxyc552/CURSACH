@@ -21,6 +21,9 @@ public class LoginFrame extends JFrame {
     public LoginFrame() {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(loginButton);
+        setSize(300, 200);
+        setResizable(false);
+
 
         loginButton.addActionListener(e -> {
             authorizeUser();

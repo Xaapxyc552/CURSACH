@@ -6,6 +6,7 @@ import service.ServiceFactory;
 import service.TestService;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.Vector;
@@ -15,22 +16,15 @@ public class ChoseTestDialog extends JDialog {
     private JButton startTestButton;
     private JButton buttonCancel;
     private JList<Test> testList;
-    private TestService testService = ServiceFactory.getInstance().getTestService();
 
+    private TestService testService = ServiceFactory.getInstance().getTestService();
     private User loggedInUser;
 
     public ChoseTestDialog(User loggedInUser) {
         this.loggedInUser = loggedInUser;
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(startTestButton);
-        setSize(400, 400);
-
-        setListSelectionModel();
-        fillListWithTests();
+        createLayout();
 
         startTestButton.addActionListener(e -> startTest());
-
         buttonCancel.addActionListener(e -> onCancel());
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -43,9 +37,21 @@ public class ChoseTestDialog extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private void createLayout() {
+        setContentPane(contentPane);
+        setModal(true);
+        getRootPane().setDefaultButton(startTestButton);
+        setSize(600, 400);
+        setResizable(false);
+
+        setListSelectionModel();
+        fillListWithTests();
+    }
+
     private void fillListWithTests() {
-        List<Test> allTests = testService.getAllTests();
+        List<Test> allTests = testService.getAllTestsForStudents();
         testList.setListData(new Vector<>(allTests));
+        testList.revalidate();
     }
 
     private void setListSelectionModel() {
@@ -60,7 +66,6 @@ public class ChoseTestDialog extends JDialog {
             return;
         }
         new TestPassingDialog(testToPass, loggedInUser).setVisible(true);
-        //new TestStatisticsDialog()
     }
 
     private void onCancel() {

@@ -1,6 +1,5 @@
 package front.frame.student;
 
-import front.frame.teacher.TestOperationsFrame;
 import model.user.User;
 
 import javax.swing.*;
@@ -33,6 +32,8 @@ public class StudentMainFrame extends JFrame {
 
     private void createLayout() {
         setContentPane(contentPane);
+        setResizable(false);
+
     }
 
     private void openStudentStatisticsFrame() {

@@ -1,30 +1,20 @@
-package front.frame.teacher;
-
-import front.validation.impl.TopicValidator;
-import front.validation.Validator;
-import model.test.Topic;
-import service.ServiceFactory;
-import service.TopicService;
+package front.validation;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.UUID;
 
-public class CreateTopicDialog extends JDialog {
+public class ValidationViolationDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
+    private JTextArea constraintsViolation;
     private JButton buttonCancel;
-    private JTextField topicNameField;
-    private TopicService topicService = ServiceFactory.getInstance().getTopicService();
 
-    public CreateTopicDialog() {
-        setSize(300,200);
+    public ValidationViolationDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setResizable(false);
 
-        buttonOK.addActionListener(e -> saveTopic());
+        buttonOK.addActionListener(e -> onOK());
 
         buttonCancel.addActionListener(e -> onCancel());
 
@@ -44,16 +34,8 @@ public class CreateTopicDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void saveTopic() {
-        Topic topic = new Topic();
-        topic.setName(topicNameField.getText());
-        Validator<Topic> validator = new TopicValidator();
-        if (!validator.validate(topic)){
-            //TODO отображние
-            return;
-        }
-        topic.setId(UUID.randomUUID());
-        topicService.createNewTopic(topic);
+    private void onOK() {
+        // add your code here
         dispose();
     }
 
@@ -62,4 +44,10 @@ public class CreateTopicDialog extends JDialog {
         dispose();
     }
 
+    public static void main(String[] args) {
+        ValidationViolationDialog dialog = new ValidationViolationDialog();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
 }

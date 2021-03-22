@@ -1,6 +1,6 @@
 package front.frame.teacher;
 
-import front.validation.TestValidator;
+import front.validation.impl.TestValidator;
 import front.validation.Validator;
 import model.test.Test;
 import model.test.Topic;
@@ -17,7 +17,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CreateTestFrame extends JDialog {
+public class CreateTestDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -28,29 +28,27 @@ public class CreateTestFrame extends JDialog {
     private TestService testService = ServiceFactory.getInstance().getTestService();
     private TopicService topicService = ServiceFactory.getInstance().getTopicService();
 
-    public CreateTestFrame() {
+    public CreateTestDialog() {
         setSize(500, 400);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setResizable(false);
 
         fillTopicBox();
 
-
         buttonOK.addActionListener(e -> saveNewTest());
-        buttonCancel.addActionListener(e -> onCancel());
+        buttonCancel.addActionListener(e -> dispose());
         createTopicButton.addActionListener(e -> createTopicDialog());
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                dispose();
             }
         });
 
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void createTopicDialog() {
@@ -91,13 +89,13 @@ public class CreateTestFrame extends JDialog {
                 .flatMap(e -> Arrays.stream(e.split(":")))
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
-
-        return Duration.ofHours(collect.get(0)).plusMinutes(collect.get(1)).plusSeconds(collect.get(2));
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
+        Duration testDuration = Duration.ofHours(collect.get(0))
+                .plusMinutes(collect.get(1))
+                .plusSeconds(collect.get(2));
+        if (testDuration.toMinutes()<1) {
+            throw new IllegalArgumentException("Time for test cannot be less than 1 minute.");
+        }
+        return testDuration;
     }
 
 }

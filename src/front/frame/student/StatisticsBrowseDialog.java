@@ -28,6 +28,9 @@ public class StatisticsBrowseDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setSize(800, 400);
+        setResizable(false);
+        testResultsList.setPreferredSize(null);
+
 
         buttonOK.addActionListener(e -> onOK());
 
@@ -51,6 +54,7 @@ public class StatisticsBrowseDialog extends JDialog {
     private void fillListWithStatistics() {
         List<Statistics> statisticsForUser = statisticService.getStatisticsForUser(loggedInUser);
         testResultsList.setListData(new Vector<>(statisticsForUser));
+        testResultsList.revalidate();
     }
 
     private void setListSelectionModel() {
